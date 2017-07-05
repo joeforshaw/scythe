@@ -6,10 +6,10 @@
   "author": "Joe Forshaw <joe.d.forshaw@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "webpack --config webpack.config.js"
+    "build": "webpack --config webpack.config.js",
+    "watch": "webpack --config webpack.config.js --watch"
   },
   "dependencies": {
-    "phaser": "^2.6.2",
     "webpack": "^3.0.0"
   }
 }
