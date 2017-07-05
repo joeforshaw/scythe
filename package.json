@@ -1,0 +1,12 @@
+{
+  "name": "scythe",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:joeforshaw/scythe.git",
+  "author": "Joe Forshaw <joe.d.forshaw@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "phaser": "^2.6.2",
+    "webpack": "^3.0.0"
+  }
+}
