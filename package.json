@@ -5,6 +5,9 @@
   "repository": "git@github.com:joeforshaw/scythe.git",
   "author": "Joe Forshaw <joe.d.forshaw@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "build": "webpack --config webpack.config.js"
+  },
   "dependencies": {
     "phaser": "^2.6.2",
     "webpack": "^3.0.0"
