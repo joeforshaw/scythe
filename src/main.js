@@ -1,3 +1,5 @@
+import Board from 'models/board';
+
 class Scythe {
 
   constructor() {
@@ -7,6 +9,7 @@ class Scythe {
       create: this.create,
       update: this.update
     });
+    this.board = new Board();
   }
 
   preload() {

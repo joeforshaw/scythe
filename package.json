@@ -10,6 +10,8 @@
     "watch": "webpack --config webpack.config.js --watch"
   },
   "dependencies": {
+    "path": "^0.12.7",
+    "pubsub-js": "^1.5.7",
     "webpack": "^3.0.0"
   }
 }

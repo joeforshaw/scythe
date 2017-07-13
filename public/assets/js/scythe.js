@@ -65,7 +65,12 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_models_board__ = __webpack_require__(1);
+
 
 class Scythe {
 
@@ -76,6 +81,7 @@ class Scythe {
       create: this.create,
       update: this.update
     });
+    this.board = new __WEBPACK_IMPORTED_MODULE_0_models_board__["a" /* default */]();
   }
 
   preload() {
@@ -93,6 +99,44 @@ class Scythe {
 }
 
 var scythe = new Scythe();
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_config_board__ = __webpack_require__(2);
+
+
+class Board {
+  constructor() {
+    console.log(__WEBPACK_IMPORTED_MODULE_0_config_board__["a" /* default */].columns, __WEBPACK_IMPORTED_MODULE_0_config_board__["a" /* default */].rows);
+    
+    console.log('stuff');
+    // var grid = [];
+    // for (var i = 0; i < config.gridWidth; i++){
+    //   grid[i] = [];
+    //   for (var j = 0; j < config.gridHeight; j++){
+    //     grid[i].push(new Hexagon(createHexImage(i,j), i, j));
+    //     layer.add(grid[i][j].getImage());
+    //   }
+    // }
+    // return grid;
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Board;
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+  columns: 9,
+  rows: 8
+});
+
 
 /***/ })
 /******/ ]);

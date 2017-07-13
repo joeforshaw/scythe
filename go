@@ -4,7 +4,6 @@ function usage()
 {
   echo "Usage:"
   echo "    go -h          Display this help message."
-  echo "    go install     Setup the project."
   echo "    go run         Run development server."
 }
 

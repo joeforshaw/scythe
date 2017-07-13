@@ -62,3 +62,5 @@ Things that need doing:
   1. Max popularity reached.
   1. Max power reached.
 1. Calculate end game scores.
+1. Multiplayer?
+1. AI?
