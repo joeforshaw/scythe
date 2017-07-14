@@ -4,6 +4,7 @@ function usage()
 {
   echo "Usage:"
   echo "    go -h          Display this help message."
+  echo "    go install     Installs dependencies."
   echo "    go run         Run development server."
 }
 
@@ -12,7 +13,9 @@ function run_server {
 }
 
 if [ "$1" == "run" ]; then
-  run_server 
+  run_server
+elif [ "$1" == "install" ]; then
+  yarn install
 else
   usage
 fi
