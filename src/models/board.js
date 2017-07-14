@@ -15,7 +15,7 @@ export default class Board {
       [
         { x: 1, y: 1, type: Territories.MOUNTAIN },
         { x: 2, y: 1, type: Territories.FARM },
-        { x: 3, y: 1, type: Territories.VILLAGE },
+        { x: 3, y: 1, type: Territories.VILLAGE, encounter: true },
         { x: 4, y: 1, type: Territories.FOREST },
         { x: 5, y: 1, type: Territories.TUNDRA },
         { x: 6, y: 1, type: Territories.VILLAGE }
@@ -23,12 +23,12 @@ export default class Board {
       // Row 3
       [
         { x: 0, y: 2, type: Territories.LAKE },
-        { x: 1, y: 2, type: Territories.TUNDRA },
+        { x: 1, y: 2, type: Territories.TUNDRA, encounter: true },
         { x: 2, y: 2, type: Territories.LAKE },
         { x: 3, y: 2, type: Territories.TUNDRA, tunnel: true },
-        { x: 4, y: 2, type: Territories.MOUNTAIN },
+        { x: 4, y: 2, type: Territories.MOUNTAIN, encounter: true },
         { x: 5, y: 2, type: Territories.FARM },
-        { x: 6, y: 2, type: Territories.FARM }
+        { x: 6, y: 2, type: Territories.FARM, encounter: true }
       ],
       // Row 4
       [
@@ -44,16 +44,16 @@ export default class Board {
       // Row 5
       [
         { x: 0, y: 4, type: Territories.FARM },
-        { x: 1, y: 4, type: Territories.VILLAGE },
+        { x: 1, y: 4, type: Territories.VILLAGE, encounter: true },
         { x: 4, y: 4, type: Territories.LAKE },
         { x: 3, y: 4, type: Territories.FACTORY },
         { x: 4, y: 4, type: Territories.MOUNTAIN },
-        { x: 5, y: 4, type: Territories.TUNDRA },
+        { x: 5, y: 4, type: Territories.TUNDRA, encounter: true },
         { x: 6, y: 4, type: Territories.MOUNTAIN }
       ],
       // Row 6
       [
-        { x: 0, y: 5, type: Territories.FOREST },
+        { x: 0, y: 5, type: Territories.FOREST, encounter: true },
         { x: 1, y: 5, type: Territories.FOREST },
         { x: 2, y: 5, type: Territories.FARM, tunnel: true },
         { x: 3, y: 5, type: Territories.TUNDRA },
