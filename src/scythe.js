@@ -17,7 +17,6 @@ class Scythe {
         update: this.update
       }
     );
-    this.board = new Board(BoardRenderer);
   }
 
   preload() {
@@ -25,7 +24,12 @@ class Scythe {
   }
 
   create() {
-    scythe.board.render();
+    this.board = new Board({
+      x: 0,
+      y: 0,
+      width: config.width,
+      height: config.height
+    });
   }
 
   update() {

@@ -2,7 +2,7 @@
 
 Things that need doing:
 
-1. Draw the board using simple, hexagonal shapes.
+1. ~~Draw the board using simple, hexagonal shapes.~~
 1. Create different hexagon types:
     1. Player bases
     1. Factory
