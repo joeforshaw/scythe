@@ -76,7 +76,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 class Scythe {
 
-  constructor(game) {
+  constructor() {
     this.game = new Phaser.Game(1024, 768, Phaser.AUTO, '', {
       preload: this.preload,
       create: this.create,
@@ -86,11 +86,11 @@ class Scythe {
   }
 
   preload() {
-    this.sprites = new __WEBPACK_IMPORTED_MODULE_0_services_sprites__["a" /* default */](this.game);
+    scythe.sprites = new __WEBPACK_IMPORTED_MODULE_0_services_sprites__["a" /* default */](scythe.game);
   }
 
   create() {
-    this.board.render();
+    scythe.board.render();
   }
 
   update() {
@@ -130,26 +130,30 @@ class Sprites {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_config_board__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_enums_territories__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_enums_factions__ = __webpack_require__(5);
+
+
 
 
 class Board {
   
   constructor() {
     this.territoryCoordinates = [
-                        {x:1,y:0},                       {x:4,y:0},
-                  {x:1,y:1}, {x:2,y:1}, {x:3,y:1}, {x:4,y:1}, {x:5,y:1}, {x:6,y:1},
-            {x:0,y:2}, {x:1,y:2}, {x:2,y:2}, {x:3,y:2}, {x:4,y:2}, {x:5,y:2}, {x:6,y:2},
-      {x:0,y:3}, {x:1,y:3}, {x:2,y:3}, {x:3,y:3}, {x:4,y:3}, {x:5,y:3}, {x:6,y:3}, {x:7,y:3},
-            {x:0,y:4}, {x:1,y:4}, {x:4,y:4}, {x:3,y:4}, {x:4,y:4}, {x:5,y:4}, {x:6,y:4},
-      {x:0,y:5}, {x:1,y:5}, {x:2,y:5}, {x:3,y:5}, {x:4,y:5}, {x:5,y:5}, {x:6,y:5},
-            {x:0,y:6}, {x:1,y:6}, {x:4,y:6}, {x:3,y:6}, {x:4,y:6}, {x:5,y:6}, {x:6,y:6},
-      {x:0,y:7}, {x:1,y:7}, {x:2,y:7}, {x:3,y:7}, {x:4,y:7}, {x:5,y:7}, {x:6,y:7}, {x:7,y:7},
-                                  {x:2,y:8}, {x:3,y:8},
+      [ { x: 1, y: 0, type: __WEBPACK_IMPORTED_MODULE_1_enums_territories__["a" /* BASE */] }, {x: 4, y: 0, type: __WEBPACK_IMPORTED_MODULE_1_enums_territories__["a" /* BASE */] } ],
+      [ {x:1,y:1}, {x:2,y:1}, {x:3,y:1}, {x:4,y:1}, {x:5,y:1}, {x:6,y:1} ],
+      [ {x:0,y:2}, {x:1,y:2}, {x:2,y:2}, {x:3,y:2}, {x:4,y:2}, {x:5,y:2}, {x:6,y:2} ],
+      [ {x:0,y:3}, {x:1,y:3}, {x:2,y:3}, {x:3,y:3}, {x:4,y:3}, {x:5,y:3}, {x:6,y:3}, {x:7,y:3} ],
+      [ {x:0,y:4}, {x:1,y:4}, {x:4,y:4}, {x:3,y:4}, {x:4,y:4}, {x:5,y:4}, {x:6,y:4} ],
+      [ {x:0,y:5}, {x:1,y:5}, {x:2,y:5}, {x:3,y:5}, {x:4,y:5}, {x:5,y:5}, {x:6,y:5} ],
+      [ {x:0,y:6}, {x:1,y:6}, {x:4,y:6}, {x:3,y:6}, {x:4,y:6}, {x:5,y:6}, {x:6,y:6} ],
+      [ {x:0,y:7}, {x:1,y:7}, {x:2,y:7}, {x:3,y:7}, {x:4,y:7}, {x:5,y:7}, {x:6,y:7}, {x:7,y:7} ],
+      [ {x:2,y:8}, {x:3,y:8} ],
     ];
   }
 
   render() {
-
+      console.log('test');
   }
 
 }
@@ -171,6 +175,65 @@ class Board {
     height: 100
   }
 });
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+const FACTORY  = 0;
+/* unused harmony export FACTORY */
+
+const BASE     = 1;
+/* harmony export (immutable) */ __webpack_exports__["a"] = BASE;
+
+const FARM     = 2;
+/* unused harmony export FARM */
+
+const FOREST   = 3;
+/* unused harmony export FOREST */
+
+const TUNDRA   = 4;
+/* unused harmony export TUNDRA */
+
+const MOUNTAIN = 5;
+/* unused harmony export MOUNTAIN */
+
+const VILLAGE  = 6;
+/* unused harmony export VILLAGE */
+
+const LAKE     = 7;
+/* unused harmony export LAKE */
+
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+const NORDIC  = 0;
+/* unused harmony export NORDIC */
+
+const RUSVIET = 1;
+/* unused harmony export RUSVIET */
+
+const TOGAWA  = 2;
+/* unused harmony export TOGAWA */
+
+const CRIMEA  = 3;
+/* unused harmony export CRIMEA */
+
+const SAXONY  = 4;
+/* unused harmony export SAXONY */
+
+const POLANIA = 5;
+/* unused harmony export POLANIA */
+
+const ALBION  = 6;
+/* unused harmony export ALBION */
+
 
 
 /***/ })

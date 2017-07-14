@@ -3,7 +3,7 @@ import Board from 'models/board';
 
 class Scythe {
 
-  constructor(game) {
+  constructor() {
     this.game = new Phaser.Game(1024, 768, Phaser.AUTO, '', {
       preload: this.preload,
       create: this.create,
@@ -13,11 +13,11 @@ class Scythe {
   }
 
   preload() {
-    this.sprites = new Sprites(this.game);
+    scythe.sprites = new Sprites(scythe.game);
   }
 
   create() {
-    this.board.render();
+    scythe.board.render();
   }
 
   update() {
