@@ -1,7 +1,7 @@
 var path = require('path');
 
 module.exports = {
-  entry: './src/main.js',
+  entry: './src/scythe.js',
   output: {
     filename: './public/assets/js/scythe.js'
   },
