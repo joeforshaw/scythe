@@ -2,9 +2,11 @@
 
 Things that need doing:
 
-1. Draw rivers.
 1. Create pawns: characters, mechs, workers.
-1. Allow pawns to move.
+1. Pawn movement.
+    1. Allow them to be selected.
+    1. Highlight tiles that the pawn can be moved to.
+    1. Move the pawn.
 1. Create resources: metal, oil, wood, food.
 1. Create buildings:
     1. Mine
@@ -67,3 +69,4 @@ Things that are done:
     1. ~~Farms~~
     1. ~~Forests~~
     1. ~~Tunnels~~
+1. ~~Draw rivers.~~

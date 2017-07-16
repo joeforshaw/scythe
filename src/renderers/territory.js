@@ -10,13 +10,32 @@ export default class TerritoryRenderer extends Renderer {
 
   constructor(state) {
     super();
+    this.riverSprites = [
+      'riverTopRight',
+      'riverRight',
+      'riverBottomRight',
+      'riverBottomLeft',
+      'riverLeft',
+      'riverTopLeft'
+    ];
     this.background = scythe.game.add.sprite(state.x, state.y, "territory");
-    this.handleTerritoryType(state);
+    this.handleBackground(state);
     this.handleRivers(state);
+    this.handleTerritoryType(state);
   }
 
   render(state) {
     
+  }
+
+  handleBackground(state) {
+    if (state.type === Territories.BASE) {
+      this.background.tint = colors.territories[Territories.BASE];      
+    } else if (state.type === Territories.LAKE) {
+      this.background.tint = colors.territories[Territories.LAKE];
+    } else {
+      this.background.tint = colors.territories[Territories.DEFAULT];
+    }
   }
 
   handleTerritoryType(state) {
@@ -35,63 +54,43 @@ export default class TerritoryRenderer extends Renderer {
   }
 
   handleRivers(state) {
-    console.log('(' + state.x + ',' + state.y + ')', state.rivers);    
     if (!state.rivers) { return; }
-    const riverSprites = [
-      'riverTopRight',
-      'riverRight',
-      'riverBottomRight',
-      'riverBottomLeft',
-      'riverLeft',
-      'riverTopLeft'
-    ];
     this.rivers = [];
     for (let side in TerritorySides.all) {
-      console.log('    Looking for rivers in: ', state.rivers);
-      console.log('    Index of ' + side + ': ', state.rivers.indexOf(side));
-      if (typeof state.rivers[side] === 'undefined') { continue; }
-      console.log('        Adding river on: ' + riverSprites[side]);
-      this.rivers[side] = this.addSprite(state, riverSprites[side]);
+      if (state.rivers.indexOf(parseInt(side)) < 0) { continue; }
+      this.rivers[side] = this.addSprite(state, this.riverSprites[side]);
     }
   }
 
   addFactoryDetail(state) {
-    this.background.tint = colors.territories[Territories.DEFAULT];
     this.top = this.addSprite(state, 'factory');
   }
 
   addBaseDetail(state) {
-    this.background.tint = colors.territories[Territories.BASE];
     this.base = this.addSprite(state, this.factionImage(state.faction));
   }
 
   addFarmDetail(state) {
-    this.background.tint = colors.territories[Territories.DEFAULT];
     this.top = this.addSprite(state, 'farm');
   }
 
   addForestDetail(state) {
-    this.background.tint = colors.territories[Territories.DEFAULT];
     this.top = this.addSprite(state, 'forest');
   }
 
   addTundraDetail(state) {
-    this.background.tint = colors.territories[Territories.DEFAULT];
     this.top = this.addSprite(state, 'tundra');
   }
 
   addMountainDetail(state) {
-    this.background.tint = colors.territories[Territories.DEFAULT];
     this.top = this.addSprite(state, 'mountain');
   }
 
   addVillageDetail(state) {
-    this.background.tint = colors.territories[Territories.DEFAULT];
     this.top = this.addSprite(state, 'village');
   }
 
   addLakeDetail(state) {
-    this.background.tint = colors.territories[Territories.LAKE];
     this.top = this.addSprite(state, 'lake');
   }
 
