@@ -1,8 +1,10 @@
 import Renderer from 'renderers/renderer';
 import scythe from 'scythe';
 import * as Territories from 'enums/territories';
+import * as TerritorySides from 'enums/territory_sides';
 import * as Factions from 'enums/factions';
 import colors from 'config/colors';
+import sprites from 'config/sprites';
 
 export default class TerritoryRenderer extends Renderer {
 
@@ -10,6 +12,7 @@ export default class TerritoryRenderer extends Renderer {
     super();
     this.background = scythe.game.add.sprite(state.x, state.y, "territory");
     this.handleTerritoryType(state);
+    this.handleRivers(state);
   }
 
   render(state) {
@@ -29,6 +32,27 @@ export default class TerritoryRenderer extends Renderer {
     }
     if (state.encounter) { this.addEncounterDetail(state); }
     if (state.tunnel)    { this.addTunnelDetail(state); }
+  }
+
+  handleRivers(state) {
+    console.log('(' + state.x + ',' + state.y + ')', state.rivers);    
+    if (!state.rivers) { return; }
+    const riverSprites = [
+      'riverTopRight',
+      'riverRight',
+      'riverBottomRight',
+      'riverBottomLeft',
+      'riverLeft',
+      'riverTopLeft'
+    ];
+    this.rivers = [];
+    for (let side in TerritorySides.all) {
+      console.log('    Looking for rivers in: ', state.rivers);
+      console.log('    Index of ' + side + ': ', state.rivers.indexOf(side));
+      if (typeof state.rivers[side] === 'undefined') { continue; }
+      console.log('        Adding river on: ' + riverSprites[side]);
+      this.rivers[side] = this.addSprite(state, riverSprites[side]);
+    }
   }
 
   addFactoryDetail(state) {

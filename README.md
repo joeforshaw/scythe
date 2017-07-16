@@ -2,17 +2,6 @@
 
 Things that need doing:
 
-1. ~~Draw the board using simple, hexagonal shapes.~~
-1. Create different hexagon types:
-    1. ~~Player bases~~
-    1. ~~Factory~~
-    1. ~~Lakes~~
-    1. ~~Villages~~
-    1. ~~Mountains~~
-    1. ~~Tundra~~
-    1. ~~Farms~~
-    1. ~~Forests~~
-    1. Tunnels
 1. Draw rivers.
 1. Create pawns: characters, mechs, workers.
 1. Allow pawns to move.
@@ -64,3 +53,17 @@ Things that need doing:
 1. Calculate end game scores.
 1. Multiplayer?
 1. AI?
+
+Things that are done:
+
+1. ~~Draw the board using simple, hexagonal shapes.~~
+1. ~~Create different hexagon types:~~
+    1. ~~Player bases~~
+    1. ~~Factory~~
+    1. ~~Lakes~~
+    1. ~~Villages~~
+    1. ~~Mountains~~
+    1. ~~Tundra~~
+    1. ~~Farms~~
+    1. ~~Forests~~
+    1. ~~Tunnels~~
