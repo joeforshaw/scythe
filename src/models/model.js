@@ -1,9 +1,16 @@
+import PubSub from 'pubsub-js';
+import * as Topics from 'enums/topics';
+
 export default class Model {
 
   constructor(params) {
     this.initState(params);
     this.initRender(params);
     this.render();
+    const self = this;
+    PubSub.subscribe(Topics.UPDATE, function(msg, data) {
+      if (self.update) { self.update(self.getState()); }
+    });
   }
 
   initState(params) {
@@ -22,6 +29,10 @@ export default class Model {
     this.render = function() {
       renderer.render(this.getState());
     }
+  }
+
+  update(state) {
+    
   }
 
 }

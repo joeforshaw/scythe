@@ -2,6 +2,8 @@ import Sprites from 'services/sprites';
 import Board from 'models/board';
 import BoardRenderer from 'renderers/board';
 import config from 'config/scythe';
+import PubSub from 'pubsub-js';
+import * as Topics from 'enums/topics';
 
 class Scythe {
 
@@ -21,6 +23,7 @@ class Scythe {
 
   preload() {
     scythe.sprites = new Sprites(scythe.game);
+    PubSub.publish(Topics.PRELOAD);
   }
 
   create() {
@@ -30,10 +33,11 @@ class Scythe {
       width: config.width,
       height: config.height
     });
+    PubSub.publish(Topics.CREATE);
   }
 
   update() {
-
+    PubSub.publish(Topics.UPDATE);
   }
 
 }

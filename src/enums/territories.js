@@ -6,3 +6,4 @@ export const TUNDRA   = 4;
 export const MOUNTAIN = 5;
 export const VILLAGE  = 6;
 export const LAKE     = 7;
+export const DEFAULT  = 8;

@@ -2,12 +2,13 @@ import Renderer from 'renderers/renderer';
 import scythe from 'scythe';
 import * as Territories from 'enums/territories';
 import * as Factions from 'enums/factions';
+import colors from 'config/colors';
 
 export default class TerritoryRenderer extends Renderer {
 
   constructor(state) {
     super();
-    this.sprite = scythe.game.add.sprite(state.x, state.y, "territory");
+    this.background = scythe.game.add.sprite(state.x, state.y, "territory");
     this.handleTerritoryType(state);
   }
 
@@ -26,47 +27,73 @@ export default class TerritoryRenderer extends Renderer {
       case Territories.VILLAGE:  this.addVillageDetail(state);  break;
       case Territories.LAKE:     this.addLakeDetail(state);     break;
     }
+    if (state.encounter) { this.addEncounterDetail(state); }
+    if (state.tunnel)    { this.addTunnelDetail(state); }
   }
 
   addFactoryDetail(state) {
-
+    this.background.tint = colors.territories[Territories.DEFAULT];
+    this.top = this.addSprite(state, 'factory');
   }
 
   addBaseDetail(state) {
-    var style = {
-      font: "32px Arial",
-      fill: "#ff0044",
-      wordWrap: true,
-      wordWrapWidth: state.width,
-      align: "center",
-      backgroundColor: "#ffff00"
-    };
-    this.text = scythe.game.add.text(0, 0, this.factionText(), style);
-    console.log("addBaseDetail");
+    this.background.tint = colors.territories[Territories.BASE];
+    this.base = this.addSprite(state, this.factionImage(state.faction));
   }
 
   addFarmDetail(state) {
-
+    this.background.tint = colors.territories[Territories.DEFAULT];
+    this.top = this.addSprite(state, 'farm');
   }
 
   addForestDetail(state) {
-
+    this.background.tint = colors.territories[Territories.DEFAULT];
+    this.top = this.addSprite(state, 'forest');
   }
 
   addTundraDetail(state) {
-
+    this.background.tint = colors.territories[Territories.DEFAULT];
+    this.top = this.addSprite(state, 'tundra');
   }
 
   addMountainDetail(state) {
-
+    this.background.tint = colors.territories[Territories.DEFAULT];
+    this.top = this.addSprite(state, 'mountain');
   }
 
   addVillageDetail(state) {
-
+    this.background.tint = colors.territories[Territories.DEFAULT];
+    this.top = this.addSprite(state, 'village');
   }
 
   addLakeDetail(state) {
+    this.background.tint = colors.territories[Territories.LAKE];
+    this.top = this.addSprite(state, 'lake');
+  }
 
+  addEncounterDetail(state) {
+    this.bottom = this.addSprite(state, 'encounter');
+  }
+
+  addTunnelDetail(state) {
+    this.bottom = this.addSprite(state, 'tunnel');
+  }
+
+  addSprite(state, image) {
+    return scythe.game.add.sprite(state.x, state.y, image);
+  }
+
+  factionImage(faction) {
+    switch (faction) {
+      case Factions.NORDIC:  return 'nordic';
+      case Factions.RUSVIET: return 'rusviet';
+      case Factions.TOGAWA:  return 'togawa';
+      case Factions.CRIMEA:  return 'crimea';
+      case Factions.SAXONY:  return 'saxony';
+      case Factions.POLANIA: return 'polania';
+      case Factions.ALBION:  return 'albion';
+      default:               return '';
+    }
   }
 
   factionText(faction) {

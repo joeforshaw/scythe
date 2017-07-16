@@ -4,14 +4,14 @@ Things that need doing:
 
 1. ~~Draw the board using simple, hexagonal shapes.~~
 1. Create different hexagon types:
-    1. Player bases
-    1. Factory
-    1. Lakes
-    1. Villages
-    1. Mountains
-    1. Tundra
-    1. Farms
-    1. Forests
+    1. ~~Player bases~~
+    1. ~~Factory~~
+    1. ~~Lakes~~
+    1. ~~Villages~~
+    1. ~~Mountains~~
+    1. ~~Tundra~~
+    1. ~~Farms~~
+    1. ~~Forests~~
     1. Tunnels
 1. Draw rivers.
 1. Create pawns: characters, mechs, workers.
