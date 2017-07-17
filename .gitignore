@@ -4,3 +4,4 @@ npm-debug.log
 public/assets/js/scythe.js
 public/assets/js/scythe.js.map
 scythe.sketch
+.DS_Store

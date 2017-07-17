@@ -24,10 +24,6 @@ export default class TerritoryRenderer extends Renderer {
     this.handleTerritoryType(state);
   }
 
-  render(state) {
-    
-  }
-
   handleBackground(state) {
     if (state.type === Territories.BASE) {
       this.background.tint = colors.territories[Territories.BASE];      

@@ -6,7 +6,7 @@ export default class Model {
   constructor(params) {
     this.initState(params);
     this.initRender(params);
-    this.render();
+    this.update();
     const self = this;
     PubSub.subscribe(Topics.UPDATE, function(msg, data) {
       if (self.update) { self.update(self.getState()); }
@@ -26,13 +26,10 @@ export default class Model {
 
   initRender(params) {
     let renderer = new params.renderer(params.state);
-    this.render = function() {
-      renderer.render(this.getState());
+    this.update = function() {
+      if (!renderer.update) { return; }
+      renderer.update(this.getState());
     }
-  }
-
-  update(state) {
-    
   }
 
 }

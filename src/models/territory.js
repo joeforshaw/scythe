@@ -8,4 +8,8 @@ export default class Territory extends Model {
     super({ renderer: TerritoryRenderer, state: state });
   }
 
+  addActor() {
+    
+  }
+
 }
