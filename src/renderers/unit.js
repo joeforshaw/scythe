@@ -1,6 +1,6 @@
 import Renderer from 'renderers/renderer';
 
-export default class CharacterRenderer extends Renderer {
+export default class UnitRenderer extends Renderer {
 
   update(state) {
     
