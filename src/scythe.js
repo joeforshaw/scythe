@@ -1,4 +1,5 @@
 import { store } from 'store/store';
+import { createPhaser, updateTick } from 'store/actions';
 import Sprites from 'services/sprites';
 import Board from 'models/board';
 import BoardRenderer from 'renderers/board';
@@ -19,6 +20,7 @@ class Scythe {
         update: this.update
       }
     );
+    store.dispatch(createPhaser(this.game));
   }
 
   preload() {
@@ -32,7 +34,7 @@ class Scythe {
   }
 
   update() {
-    PubSub.publish(Topics.GAME_UPDATE);
+    // store.dispatch(updateTick(Date.now()));
   }
 
   initialSetup() {

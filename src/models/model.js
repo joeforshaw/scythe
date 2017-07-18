@@ -42,9 +42,8 @@ export default class Model {
     }
   }
 
-  onCreated(createdTopic) {
-    console.log('onCreated', createdTopic);
-    PubSub.publish(createdTopic, { instance: this })
+  onCreated(createAction) {
+    store.dispatch(createAction(this));
   }
 
 }

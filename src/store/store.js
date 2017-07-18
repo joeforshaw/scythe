@@ -1,3 +1,4 @@
+import { createStore } from 'redux';
 import reducer from 'store/reducer.js';
 
 export let store = createStore(
