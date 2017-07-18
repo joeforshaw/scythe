@@ -2,6 +2,7 @@ import Model from 'models/model';
 import BoardRenderer from 'renderers/board';
 import Territory from 'models/territory';
 import config from 'config/board';
+import { CREATE_BOARD } from 'enums/topics';
 
 export default class Board extends Model {
   
@@ -22,6 +23,7 @@ export default class Board extends Model {
         this.territories.push(territory);
       }
     }
+    this.onCreated(CREATE_BOARD);
   }
 
   calculateFrame(column, row, width, height) {

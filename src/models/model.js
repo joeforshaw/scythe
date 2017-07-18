@@ -1,4 +1,5 @@
 import PubSub from 'pubsub-js';
+import { store } from 'store/store';
 import * as Topics from 'enums/topics';
 
 export default class Model {
@@ -6,10 +7,19 @@ export default class Model {
   constructor(params) {
     this.initState(params);
     this.initRender(params);
-    this.update();
+    
     const self = this;
-    PubSub.subscribe(Topics.UPDATE, function(msg, data) {
-      if (self.update) { self.update(self.getState()); }
+    this.lastTick = 0;
+    store.subscribe(function() {
+      const state = store.getState();
+      const currentTick = state.tick;
+      if (self.onStateChanged) {
+        self.onStateChanged(state);
+      }
+      if (self.update && self.lastTick < currentTick) {
+        self.update(store.getState());
+      }
+      self.lastTick = currentTick;
     });
   }
 
@@ -30,6 +40,11 @@ export default class Model {
       if (!renderer.update) { return; }
       renderer.update(this.getState());
     }
+  }
+
+  onCreated(createdTopic) {
+    console.log('onCreated', createdTopic);
+    PubSub.publish(createdTopic, { instance: this })
   }
 
 }

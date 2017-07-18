@@ -1,8 +1,8 @@
+import { store } from 'store/store';
 import Sprites from 'services/sprites';
 import Board from 'models/board';
 import BoardRenderer from 'renderers/board';
 import config from 'config/scythe';
-import PubSub from 'pubsub-js';
 import * as Topics from 'enums/topics';
 
 class Scythe {
@@ -23,21 +23,25 @@ class Scythe {
 
   preload() {
     scythe.sprites = new Sprites(scythe.game);
-    PubSub.publish(Topics.PRELOAD);
+    PubSub.publish(Topics.GAME_PRELOAD);
   }
 
   create() {
-    this.board = new Board({
+    scythe.initialSetup();
+    PubSub.publish(Topics.GAME_CREATE);
+  }
+
+  update() {
+    PubSub.publish(Topics.GAME_UPDATE);
+  }
+
+  initialSetup() {
+    new Board({
       x: 0,
       y: 0,
       width: config.width,
       height: config.height
     });
-    PubSub.publish(Topics.CREATE);
-  }
-
-  update() {
-    PubSub.publish(Topics.UPDATE);
   }
 
 }
