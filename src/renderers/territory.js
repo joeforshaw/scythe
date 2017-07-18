@@ -11,12 +11,12 @@ export default class TerritoryRenderer extends Renderer {
   constructor(state) {
     super();
     this.riverSprites = [
-      'riverTopRight',
-      'riverRight',
-      'riverBottomRight',
-      'riverBottomLeft',
-      'riverLeft',
-      'riverTopLeft'
+      'river-top-right',
+      'river-right',
+      'river-bottom-right',
+      'river-bottom-left',
+      'river-left',
+      'river-top-left'
     ];
     this.background = scythe.game.add.sprite(state.x, state.y, "territory");
     this.handleBackground(state);

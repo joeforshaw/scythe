@@ -1,10 +1,11 @@
-import { store } from 'store/store';
-import { createPhaser, updateTick } from 'store/actions';
+import { createStore } from 'redux';
+import PubSub from 'pubsub-js';
+
 import Sprites from 'services/sprites';
-import Board from 'models/board';
-import BoardRenderer from 'renderers/board';
 import config from 'config/scythe';
 import * as Topics from 'enums/topics';
+import reducer from 'store/reducer';
+import Initializer from 'initializer';
 
 class Scythe {
 
@@ -20,7 +21,10 @@ class Scythe {
         update: this.update
       }
     );
-    store.dispatch(createPhaser(this.game));
+    this.store = createStore(
+      reducer,
+      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    );
   }
 
   preload() {
@@ -29,25 +33,16 @@ class Scythe {
   }
 
   create() {
-    scythe.initialSetup();
+    new Initializer().run();
     PubSub.publish(Topics.GAME_CREATE);
   }
 
   update() {
-    // store.dispatch(updateTick(Date.now()));
-  }
-
-  initialSetup() {
-    new Board({
-      x: 0,
-      y: 0,
-      width: config.width,
-      height: config.height
-    });
+    
   }
 
 }
 
 const scythe = new Scythe();
-
 export default scythe;
+export { store };

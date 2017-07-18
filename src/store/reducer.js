@@ -1,23 +1,22 @@
+import scythe from 'scythe';
 import * as ActionTypes from 'store/constants';
-import * as Actions from 'store/actions';
 
-const initialState = {
-  territories: []
-};
-
-const reducer = (state = initialState, action) => {
+const reducer = (state = {}, action) => {
+  let output = state;
+  console.log(action.type, action);
   switch (action.type) {
-    case ActionTypes.CREATE_PHASER:    state = Object.assign(state, { phaser: action.instance }); break;
-    case ActionTypes.CREATE_BOARD:     state = Object.assign(state, { board: action.instance }); break;
-    case ActionTypes.CREATE_TERRITORY: state = createTerritory(state, action); break;
-    case ActionTypes.UPDATE_TICK:      state = Object.assign(state, { tick: action.tick }); break;
+    case ActionTypes.INITIALIZE: output = action.initialState; break;
+    case ActionTypes.MOVE_UNIT:  output = moveUnit(state, action); break;
   }
-  return state;
+  return output;
 }
 
-function createTerritory(state, action) {
-  state.territories.push(action.instance)
-  return state;
+function moveUnit(state, action) {
+  if (action.old) {
+    const oldTerritory = state.territories[action.old.row][action.old.column];
+  }
+  const newTerritory = state.territories[action.new.row][action.new.column];
+  newTerritory.units.push(action.unit);
 }
 
 export default reducer;
