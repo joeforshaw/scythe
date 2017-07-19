@@ -4,6 +4,7 @@ import TerritoryRenderer from 'renderers/territory';
 import config from 'config/territory';
 import { SELECTED_UNIT } from 'enums/topics';
 import PubSub from 'pubsub-js';
+import { moveUnit } from 'store/actions';
 
 export default class Territory extends Model {
   
@@ -15,8 +16,26 @@ export default class Territory extends Model {
     PubSub.subscribe(SELECTED_UNIT, function(msg, data) { self.onUnitSelected(data); });
   }
 
+  onClicked() {
+    const globalState = scythe.store.getState();
+    const state = this.getState();
+    if (state.reachable && globalState.selectedUnit) {
+      const action = moveUnit(
+        globalState.selectedUnit,
+        this.coordinates(),
+        globalState.selectedUnit.territory.coordinates()
+      );
+      scythe.store.dispatch(action);
+    }
+  }
+
   onUnitSelected(data) {
-    this.setState({ reachable: this.id in data.reachable });
+    this.setState({ reachable: data.unit && this.id in data.reachable });
+  }
+
+  coordinates() {
+    const state = this.getState();
+    return { row: state.row, column: state.column };
   }
 
   reachableTerritories(numberOfMoves) {

@@ -18,8 +18,7 @@ export default class TerritoryRenderer extends Renderer {
       'river-left',
       'river-top-left'
     ];
-    this.background = this.addSprite(state, "territory");
-    this.handleBackground(state);
+    this.handleBackground(model, state);
     this.handleRivers(state);
     this.handleTerritoryType(state);
     this.originalTint = this.background.tint;
@@ -34,7 +33,14 @@ export default class TerritoryRenderer extends Renderer {
     }
   }
 
-  handleBackground(state) {
+
+
+  handleBackground(model, state) {
+    this.background = this.addSprite(state, "territory");
+    this.background.inputEnabled = true;
+    this.background.events.onInputDown.add(function(sprite) {
+      model.onClicked();
+    }, this);
     if (state.type === Territories.BASE) {
       this.background.tint = colors.territories[Territories.BASE];      
     } else if (state.type === Territories.LAKE) {

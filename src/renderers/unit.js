@@ -18,8 +18,9 @@ export default class UnitRenderer extends Renderer {
   update(model) {
     if (!this.unit) { return; }
     const state = model.getState();
-    this.unit.x = state.x;
-    this.unit.y = state.y;
+    // this.sprites.setAll('anchor', 0);
+    this.sprites.setAll('x', state.x);
+    this.sprites.setAll('y', state.y);
     if (state.selected && !this.selectedSprite) {
       this.addSelect(model.center());
     } else if (!state.selected && this.selectedSprite) {
