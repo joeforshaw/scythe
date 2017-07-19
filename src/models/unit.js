@@ -3,8 +3,4 @@ import UnitRenderer from 'renderers/unit';
 
 export default class Unit extends Model {
 
-  moveTo(territory) {
-    
-  }
-
 }

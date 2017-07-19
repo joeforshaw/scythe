@@ -4,6 +4,7 @@ import territoryConfig from 'config/territory';
 import unitConfig from 'config/unit';
 import Territory from 'models/territory';
 import Character from 'models/character';
+import Mech from 'models/mech';
 import Worker from 'models/worker';
 import * as Factions from 'enums/factions';
 
@@ -17,9 +18,34 @@ export default class Initializer {
       territories: territories,
       units:       units
     }));
-    for (let unit in units) {
-      // scythe.store.dispatch(moveUnit(unit, territories[][]))
-    }
+    
+    scythe.store.dispatch(moveUnit(units[Factions.NORDIC].character,  { row: 0, column: 4 }));
+    scythe.store.dispatch(moveUnit(units[Factions.NORDIC].workers[0], { row: 1, column: 4 }));
+    scythe.store.dispatch(moveUnit(units[Factions.NORDIC].workers[1], { row: 1, column: 5 }));
+
+    scythe.store.dispatch(moveUnit(units[Factions.RUSVIET].character,  { row: 3, column: 7 }));
+    scythe.store.dispatch(moveUnit(units[Factions.RUSVIET].workers[0], { row: 3, column: 6 }));
+    scythe.store.dispatch(moveUnit(units[Factions.RUSVIET].workers[1], { row: 4, column: 6 }));
+
+    scythe.store.dispatch(moveUnit(units[Factions.TOGAWA].character,  { row: 7, column: 7 }));
+    scythe.store.dispatch(moveUnit(units[Factions.TOGAWA].workers[0], { row: 6, column: 6 }));
+    scythe.store.dispatch(moveUnit(units[Factions.TOGAWA].workers[1], { row: 7, column: 6 }));
+
+    scythe.store.dispatch(moveUnit(units[Factions.CRIMEA].character,  { row: 8, column: 2 }));
+    scythe.store.dispatch(moveUnit(units[Factions.CRIMEA].workers[0], { row: 7, column: 3 }));
+    scythe.store.dispatch(moveUnit(units[Factions.CRIMEA].workers[1], { row: 8, column: 3 }));
+
+    scythe.store.dispatch(moveUnit(units[Factions.SAXONY].character,  { row: 7, column: 0 }));
+    scythe.store.dispatch(moveUnit(units[Factions.SAXONY].workers[0], { row: 6, column: 0 }));
+    scythe.store.dispatch(moveUnit(units[Factions.SAXONY].workers[1], { row: 7, column: 1 }));
+
+    scythe.store.dispatch(moveUnit(units[Factions.POLANIA].character,  { row: 3, column: 0 }));
+    scythe.store.dispatch(moveUnit(units[Factions.POLANIA].workers[0], { row: 3, column: 1 }));
+    scythe.store.dispatch(moveUnit(units[Factions.POLANIA].workers[1], { row: 4, column: 0 }));
+
+    scythe.store.dispatch(moveUnit(units[Factions.ALBION].character,  { row: 0, column: 1 }));
+    scythe.store.dispatch(moveUnit(units[Factions.ALBION].workers[0], { row: 1, column: 1 }));
+    scythe.store.dispatch(moveUnit(units[Factions.ALBION].workers[1], { row: 1, column: 2 }));
   }
 
   initializeUnits() {

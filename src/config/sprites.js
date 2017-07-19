@@ -35,6 +35,15 @@ const sprites = {
     'togawa':  'character-togawa.png',
     'albion':  'character-albion.png'
   },
+  'mech': {
+    'nordic':  'mech-nordic.png',
+    'rusviet': 'mech-rusviet.png',
+    'crimea':  'mech-crimea.png',
+    'saxony':  'mech-saxony.png',
+    'polania': 'mech-polania.png',
+    'togawa':  'mech-togawa.png',
+    'albion':  'mech-albion.png'
+  },
   'worker': {
     'nordic':  'worker-nordic.png',
     'rusviet': 'worker-rusviet.png',

@@ -5,6 +5,7 @@ export default class Territory extends Model {
   
   constructor(state) {
     super({ renderer: TerritoryRenderer, state: state });
+    this.units = {};
   }
 
 }

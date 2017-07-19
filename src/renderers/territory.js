@@ -18,7 +18,7 @@ export default class TerritoryRenderer extends Renderer {
       'river-left',
       'river-top-left'
     ];
-    this.background = scythe.game.add.sprite(state.x, state.y, "territory");
+    this.background = this.addSprite(state, "territory");
     this.handleBackground(state);
     this.handleRivers(state);
     this.handleTerritoryType(state);
@@ -96,10 +96,6 @@ export default class TerritoryRenderer extends Renderer {
 
   addTunnelDetail(state) {
     this.bottom = this.addSprite(state, 'tunnel');
-  }
-
-  addSprite(state, image) {
-    return scythe.game.add.sprite(state.x, state.y, image);
   }
 
   factionImage(faction) {

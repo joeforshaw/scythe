@@ -3,7 +3,6 @@ import * as ActionTypes from 'store/constants';
 
 const reducer = (state = {}, action) => {
   let output = state;
-  console.log(action.type, action);
   switch (action.type) {
     case ActionTypes.INITIALIZE: output = action.initialState; break;
     case ActionTypes.MOVE_UNIT:  output = moveUnit(state, action); break;
@@ -12,11 +11,19 @@ const reducer = (state = {}, action) => {
 }
 
 function moveUnit(state, action) {
-  if (action.old) {
-    const oldTerritory = state.territories[action.old.row][action.old.column];
+  if (action.from) {
+    delete state.territories[action.from.row][action.from.column].units[action.unit.id];
   }
-  const newTerritory = state.territories[action.new.row][action.new.column];
-  newTerritory.units.push(action.unit);
+  action.unit.territory = state.territories[action.to.row][action.to.column];
+  state.territories[action.to.row][action.to.column].units[action.unit.id] = action.unit;
+  
+  const territoryCenter = action.unit.territory.center();
+  const unitState = action.unit.getState();
+  action.unit.setState({
+    x: territoryCenter.x - (unitState.height / 2),
+    y: territoryCenter.y - (unitState.width / 2),
+  });
+  return state;
 }
 
 export default reducer;
