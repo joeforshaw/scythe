@@ -5,8 +5,8 @@ import * as Factions from 'enums/factions';
 export default {
   width: 1024,
   height: 768,
-  columns: 9,
-  rows: 8,
+  columns: 8,
+  rows: 9,
   territory: {
     width: 87,
     height: 106

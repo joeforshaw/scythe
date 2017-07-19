@@ -37,7 +37,8 @@ export default class Model {
   }
 
   equals(model) {
-    return this.id === model.id;
+    return typeof model !== 'undefined'
+      && this.id === model.id;
   }
 
   center() {

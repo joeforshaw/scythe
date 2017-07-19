@@ -22,6 +22,16 @@ export default class TerritoryRenderer extends Renderer {
     this.handleBackground(state);
     this.handleRivers(state);
     this.handleTerritoryType(state);
+    this.originalTint = this.background.tint;
+  }
+
+  update(model) {
+    const state = model.getState();
+    if (state.reachable) {
+      this.background.tint = colors.reachable;
+    } else {
+      this.background.tint = this.originalTint;
+    }
   }
 
   handleBackground(state) {
