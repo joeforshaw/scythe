@@ -8,8 +8,8 @@ import sprites from 'config/sprites';
 
 export default class TerritoryRenderer extends Renderer {
 
-  constructor(state) {
-    super();
+  constructor(model, state) {
+    super(model, state);
     this.riverSprites = [
       'river-top-right',
       'river-right',

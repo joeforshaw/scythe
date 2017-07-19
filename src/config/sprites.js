@@ -27,31 +27,34 @@ const sprites = {
     'top-left':     'river-top-left.png',
   },
   'character': {
-    'nordic':  'character-nordic.png',
-    'rusviet': 'character-rusviet.png',
-    'crimea':  'character-crimea.png',
-    'saxony':  'character-saxony.png',
-    'polania': 'character-polania.png',
-    'togawa':  'character-togawa.png',
-    'albion':  'character-albion.png'
+    'nordic':   'character-nordic.png',
+    'rusviet':  'character-rusviet.png',
+    'crimea':   'character-crimea.png',
+    'saxony':   'character-saxony.png',
+    'polania':  'character-polania.png',
+    'togawa':   'character-togawa.png',
+    'albion':   'character-albion.png',
+    'selected': 'character-selected.png'
   },
   'mech': {
-    'nordic':  'mech-nordic.png',
-    'rusviet': 'mech-rusviet.png',
-    'crimea':  'mech-crimea.png',
-    'saxony':  'mech-saxony.png',
-    'polania': 'mech-polania.png',
-    'togawa':  'mech-togawa.png',
-    'albion':  'mech-albion.png'
+    'nordic':   'mech-nordic.png',
+    'rusviet':  'mech-rusviet.png',
+    'crimea':   'mech-crimea.png',
+    'saxony':   'mech-saxony.png',
+    'polania':  'mech-polania.png',
+    'togawa':   'mech-togawa.png',
+    'albion':   'mech-albion.png',
+    'selected': 'mech-selected.png'
   },
   'worker': {
-    'nordic':  'worker-nordic.png',
-    'rusviet': 'worker-rusviet.png',
-    'crimea':  'worker-crimea.png',
-    'saxony':  'worker-saxony.png',
-    'polania': 'worker-polania.png',
-    'togawa':  'worker-togawa.png',
-    'albion':  'worker-albion.png'
+    'nordic':   'worker-nordic.png',
+    'rusviet':  'worker-rusviet.png',
+    'crimea':   'worker-crimea.png',
+    'saxony':   'worker-saxony.png',
+    'polania':  'worker-polania.png',
+    'togawa':   'worker-togawa.png',
+    'albion':   'worker-albion.png',
+    'selected': 'worker-selected.png'
   },
 };
 

@@ -3,3 +3,5 @@ export const GAME_CREATE  = 'game.create';
 export const GAME_UPDATE  = 'game.update';
 
 export const CREATE_UNIT  = 'create.unit';
+
+export const SELECTED_UNIT  = 'selected.unit';

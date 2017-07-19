@@ -3,7 +3,7 @@
 Things that need doing:
 
 1. Pawn movement.
-    1. Allow them to be selected.
+    1. ~~Allow them to be selected.~~
     1. Highlight tiles that the pawn can be moved to.
     1. Move the pawn.
 1. Create resources: metal, oil, wood, food.

@@ -35,6 +35,7 @@ class Scythe {
   create() {
     new Initializer().run();
     PubSub.publish(Topics.GAME_CREATE);
+    this.game.input.mouse.capture = true;
   }
 
   update() {

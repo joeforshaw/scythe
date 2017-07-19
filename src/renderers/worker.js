@@ -5,9 +5,9 @@ import { WORKER } from 'enums/units';
 
 export default class WorkerRenderer extends UnitRenderer {
 
-  constructor(state) {
+  constructor(model, state) {
     state.unitType = WORKER;
-    super(state);
+    super(model, state);
   }
 
 }

@@ -9,6 +9,15 @@ export default class Model {
     this.initState(params);
     this.id = this.generateID(16);
   }
+  
+  initRender(params) {
+    const self = this;
+    let renderer = new params.renderer(this, params.state);
+    self.update = function() {
+      if (!renderer.update) { return; }
+      renderer.update(self);
+    }
+  }
 
   initState(params) {
     const self = this;
@@ -23,17 +32,12 @@ export default class Model {
     self.setState(params.state ? params.state : {});
   }
 
-  initRender(params) {
-    const self = this;
-    let renderer = new params.renderer(params.state);
-    self.update = function() {
-      if (!renderer.update) { return; }
-      renderer.update(self.getState());
-    }
-  }
-
   onCreated(createAction) {
     store.dispatch(createAction(this));
+  }
+
+  equals(model) {
+    return this.id === model.id;
   }
 
   center() {
