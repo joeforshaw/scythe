@@ -2,10 +2,6 @@
 
 Things that need doing:
 
-1. Create pawns:
-    1. Characters
-    1. Mechs
-    1. Workers.
 1. Pawn movement.
     1. Allow them to be selected.
     1. Highlight tiles that the pawn can be moved to.
@@ -73,3 +69,7 @@ Things that are done:
     1. ~~Forests~~
     1. ~~Tunnels~~
 1. ~~Draw rivers.~~
+1. ~~Create pawns:~~
+    1. ~~Characters~~
+    1. ~~Mechs~~
+    1. ~~Workers~~
