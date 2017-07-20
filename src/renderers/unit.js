@@ -18,11 +18,13 @@ export default class UnitRenderer extends Renderer {
   update(model) {
     if (!this.unit) { return; }
     const state = model.getState();
-    // this.sprites.setAll('anchor', 0);
-    this.sprites.setAll('x', state.x);
-    this.sprites.setAll('y', state.y);
+    this.unit.x = state.x;
+    this.unit.y = state.y;
+
+    if (this.selectedSprite) { this.positionSelect(); }
+
     if (state.selected && !this.selectedSprite) {
-      this.addSelect(model.center());
+      this.addSelect();
     } else if (!state.selected && this.selectedSprite) {
       this.removeSelect();
     }
@@ -46,16 +48,24 @@ export default class UnitRenderer extends Renderer {
     }
   }
 
-  addSelect(center) {
+  addSelect() {
     const selectedImage = this.imageName('selected')
-    this.selectedSprite = this.addSprite(center, selectedImage);
-    this.selectedSprite.anchor.set(0.5);
+    this.selectedSprite = this.addSprite({ x: this.unit.x, y: this.unit.y }, selectedImage);
+    this.positionSelect();
     this.sprites.sendToBack(this.selectedSprite);
   }
 
   removeSelect() {
     this.selectedSprite.destroy();
     this.selectedSprite = null;
+  }
+
+  positionSelect() {
+    this.selectedSprite.x = this.unit.x;
+    this.selectedSprite.y = this.unit.y;
+    const pos =  this.centerPositionTo(this.selectedSprite, this.unit);
+    this.selectedSprite.x = pos.x;
+    this.selectedSprite.y = pos.y;
   }
 
 }
