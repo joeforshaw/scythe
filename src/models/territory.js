@@ -105,7 +105,8 @@ function getAdjacentItem(params, row, column) {
   const rowArray = params.territories[row];
   if (typeof rowArray === 'undefined') { return undefined; }
   const territory = rowArray[column];
-  if (territory && !params.unit.canTraverse(territory)) { return undefined; }
+  if (!territory) { return undefined; }
+  if (!params.unit.canMoveTo(territory)) { return undefined; }
   return territory;
 }
 

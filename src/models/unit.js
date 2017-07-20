@@ -11,7 +11,7 @@ export default class Unit extends Model {
   constructor(params) {
     super(params);
     const self = this;
-    this.initialiseTraverseRules();
+    this.initialiseMoveRules();
     PubSub.subscribe(SELECTED_UNIT, function(msg, data) { self.onUnitSelected(data); });
   }
 
@@ -19,28 +19,25 @@ export default class Unit extends Model {
     return 1; // TODO
   }
 
-  initialiseTraverseRules() {
-    this.traverseRules = [];
-    this.addTraverseRule(function(state, territory) {
+  initialiseMoveRules() {
+    this.moveRules = [];
+
+    // Can't enter enemy bases
+    this.addMoveRule(function(state, territory) {
       const territoryState = territory.getState();
-      console.log(territoryState.type == Territories.BASE, territoryState.faction != state.faction);
-      if (territoryState.type == Territories.BASE && territoryState.faction != state.faction) {
-        return false;
-      }
-      return true;
+      return territoryState.type != Territories.BASE
+        || territoryState.faction == state.faction
     });
   }
 
-  addTraverseRule(rule) {
-    this.traverseRules.push(rule);
+  addMoveRule(rule) {
+    this.moveRules.push(rule);
   }
 
-  canTraverse(territory) {
-    let canTraverse = true;
+  canMoveTo(territory) {
     const state = this.getState();
-    for (let i = 0; i < this.traverseRules.length; i++) {
-      const ruleResult = !this.traverseRules[i](state, territory);
-      console.log(ruleResult);
+    for (let i = 0; i < this.moveRules.length; i++) {
+      const ruleResult = this.moveRules[i](state, territory);
       if (!ruleResult) { return false; }
     }
     return true;
