@@ -2,7 +2,7 @@ import scythe from 'scythe';
 import Model from 'models/model';
 import TerritoryRenderer from 'renderers/territory';
 import config from 'config/territory';
-import { SELECTED_UNIT } from 'enums/topics';
+import { SELECTED_UNIT, MOVED_UNIT } from 'enums/topics';
 import PubSub from 'pubsub-js';
 import { moveUnit } from 'store/actions';
 
@@ -14,22 +14,34 @@ export default class Territory extends Model {
     const self = this;
     this.units = {};
     PubSub.subscribe(SELECTED_UNIT, function(msg, data) { self.onUnitSelected(data); });
+    PubSub.subscribe(MOVED_UNIT,    function(msg, data) { self.onUnitMoved(data); });
   }
 
   onClicked() {
     const globalState = scythe.store.getState();
     const state = this.getState();
-    if (state.reachable && globalState.selectedUnit) {
-      const action = moveUnit(
-        globalState.selectedUnit,
-        this.coordinates(),
-        globalState.selectedUnit.territory.coordinates()
-      );
+    const unit = globalState.selectedUnit;
+    if (state.reachable && unit) {
+      const to = this.coordinates();
+      const from = unit.territory.coordinates();
+      const action = moveUnit(unit, to, from);
       scythe.store.dispatch(action);
+      PubSub.publish(MOVED_UNIT, {
+        unit: unit,
+        reachable: this.reachableTerritories(unit.numberOfMoves())
+      });
     }
   }
 
   onUnitSelected(data) {
+    this.checkIfReachable(data);
+  }
+
+  onUnitMoved(data) {
+    this.checkIfReachable(data);
+  }
+
+  checkIfReachable(data) {
     this.setState({ reachable: data.unit && this.id in data.reachable });
   }
 

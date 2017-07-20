@@ -4,4 +4,6 @@ export const GAME_UPDATE  = 'game.update';
 
 export const CREATE_UNIT  = 'create.unit';
 
+export const MOVED_UNIT = 'moved.unit';
+
 export const SELECTED_UNIT  = 'selected.unit';
