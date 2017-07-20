@@ -28,7 +28,7 @@ export default class Territory extends Model {
       scythe.store.dispatch(action);
       PubSub.publish(MOVED_UNIT, {
         unit: unit,
-        reachable: this.reachableTerritories(unit.numberOfMoves())
+        reachable: this.reachableTerritories(unit, unit.numberOfMoves())
       });
     }
   }
@@ -50,8 +50,9 @@ export default class Territory extends Model {
     return { row: state.row, column: state.column };
   }
 
-  reachableTerritories(numberOfMoves) {
+  reachableTerritories(unit, numberOfMoves) {
     return this.reachableTerritoriesRecurse({
+      unit: unit,
       movesTaken: 0,
       maxMoves: numberOfMoves,
       current: this,
@@ -61,33 +62,33 @@ export default class Territory extends Model {
   }
 
   reachableTerritoriesRecurse(params) {
-    return params.current.adjacentTerritories(params.territories);
+    return params.current.adjacentTerritories(params);
     // const currentState = params.current.getState();
     // for (let i = 0; i < adjacents.length; i++) {
     //   adjacents[i].setState({ reachable: true });
     // }
   }
   
-  adjacentTerritories(allTerritories) {
+  adjacentTerritories(params) {
     let territories;
     const state = this.getState();
     if (state.row % 2 === 0) {
       territories = [
-        getAdjacentItem(allTerritories, state.row - 1, state.column + 1), // Top right
-        getAdjacentItem(allTerritories, state.row    , state.column + 1), // Right
-        getAdjacentItem(allTerritories, state.row + 1, state.column + 1), // Bottom right
-        getAdjacentItem(allTerritories, state.row + 1, state.column    ), // Bottom left
-        getAdjacentItem(allTerritories, state.row    , state.column - 1), // Left
-        getAdjacentItem(allTerritories, state.row - 1, state.column    )  // Top left
+        getAdjacentItem(params, state.row - 1, state.column + 1), // Top right
+        getAdjacentItem(params, state.row    , state.column + 1), // Right
+        getAdjacentItem(params, state.row + 1, state.column + 1), // Bottom right
+        getAdjacentItem(params, state.row + 1, state.column    ), // Bottom left
+        getAdjacentItem(params, state.row    , state.column - 1), // Left
+        getAdjacentItem(params, state.row - 1, state.column    )  // Top left
       ];
     } else {
       territories = [
-        getAdjacentItem(allTerritories, state.row - 1, state.column    ), // Top right
-        getAdjacentItem(allTerritories, state.row    , state.column + 1), // Right
-        getAdjacentItem(allTerritories, state.row + 1, state.column    ), // Bottom right
-        getAdjacentItem(allTerritories, state.row + 1, state.column - 1), // Bottom left
-        getAdjacentItem(allTerritories, state.row    , state.column - 1), // Left
-        getAdjacentItem(allTerritories, state.row - 1, state.column - 1)  // Top left
+        getAdjacentItem(params, state.row - 1, state.column    ), // Top right
+        getAdjacentItem(params, state.row    , state.column + 1), // Right
+        getAdjacentItem(params, state.row + 1, state.column    ), // Bottom right
+        getAdjacentItem(params, state.row + 1, state.column - 1), // Bottom left
+        getAdjacentItem(params, state.row    , state.column - 1), // Left
+        getAdjacentItem(params, state.row - 1, state.column - 1)  // Top left
       ]
     }
     return convertToObject(territories);
@@ -95,15 +96,17 @@ export default class Territory extends Model {
 
 }
 
-function getAdjacentItem(territories, row, column) {
+function getAdjacentItem(params, row, column) {
   const exit = row < 0
     || row > config.rows - 1
     || column < 0
     || column > config.columns - 1;
   if (exit) { return undefined; }
-  const rowArray = territories[row];
+  const rowArray = params.territories[row];
   if (typeof rowArray === 'undefined') { return undefined; }
-  return rowArray[column];
+  const territory = rowArray[column];
+  if (territory && !params.unit.canTraverse(territory)) { return undefined; }
+  return territory;
 }
 
 function convertToObject(territories) {
