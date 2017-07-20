@@ -8,8 +8,8 @@ export default {
   columns: 8,
   rows: 9,
   territory: {
-    width: 87,
-    height: 106
+    width: 100, //87,
+    height: 100 //106
   },
   data: [
     // Row 1

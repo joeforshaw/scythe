@@ -20,10 +20,7 @@ function moveUnit(state, action) {
   
   const territoryCenter = action.unit.territory.center();
   const unitState = action.unit.getState();
-  action.unit.setState({
-    x: territoryCenter.x - (unitState.height / 2),
-    y: territoryCenter.y - (unitState.width / 2),
-  });
+  action.unit.setState(action.unit.territory.positionForCommonCentre(action.unit));
   return state;
 }
 

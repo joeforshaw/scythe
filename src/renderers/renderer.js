@@ -13,10 +13,10 @@ export default class Renderer {
     return { x: state.x, y: state.y, width: state.width, height: state.height }
   }
 
-  centerPositionTo(sprite, otherSprite) {
+  positionForCommonCentre(sprite, spriteToMove) {
     return {
-      x: sprite.x + ((otherSprite.width  - sprite.width) / 2),
-      y: sprite.y + ((otherSprite.height - sprite.height) / 2)
+      x: sprite.x + ((spriteToMove.width  - sprite.width) / 2),
+      y: sprite.y + ((spriteToMove.height - sprite.height) / 2)
     }
   }
 

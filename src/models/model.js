@@ -48,6 +48,16 @@ export default class Model {
     };
   }
 
+  positionForCommonCentre(model) {
+    const state = this.getState();
+    const modelState = model.getState();
+    const centre = {
+      x: state.x - ((modelState.width  - state.width) / 2),
+      y: state.y - ((modelState.height - state.height) / 2)
+    }
+    return centre;
+  }
+
   generateID(length) {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

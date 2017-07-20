@@ -80,9 +80,10 @@ export default class Initializer {
   }
 
   territoryFrame(column, row, width, height) {
+    const offsets = { x: 0.87, y: 1.065 };
     return {
-      x: (row % 2 === 0 ? width / 2 : 0) + (column * width),
-      y: (height - (height / (2 * Math.tan(Math.PI/3)))) * row,
+      x: ((row % 2 === 0 ? width / 2 : 0) + (column * width)) * offsets.x,
+      y: ((height - (height / (2 * Math.tan(Math.PI/3)))) * row) * offsets.y,
       width: width,
       height: height
     };

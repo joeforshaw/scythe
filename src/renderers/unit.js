@@ -63,7 +63,7 @@ export default class UnitRenderer extends Renderer {
   positionSelect() {
     this.selectedSprite.x = this.unit.x;
     this.selectedSprite.y = this.unit.y;
-    const pos =  this.centerPositionTo(this.selectedSprite, this.unit);
+    const pos = this.positionForCommonCentre(this.selectedSprite, this.unit);
     this.selectedSprite.x = pos.x;
     this.selectedSprite.y = pos.y;
   }
