@@ -9,4 +9,5 @@ export const MOVE_UNIT = 'move.unit';
 
 export const MOVED_UNIT = 'moved.unit';
 
+export const SELECTED_MOVEABLE_TERRITORY = 'selected.territory.moveable';
 export const SELECTED_UNIT  = 'selected.unit';

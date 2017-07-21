@@ -1,10 +1,8 @@
-import { createStore } from 'redux';
 import PubSub from 'pubsub-js';
 
 import Sprites from 'services/sprites';
 import config from 'config/scythe';
 import * as Topics from 'enums/topics';
-import reducer from 'store/reducer';
 import Initializer from 'initializer';
 
 class Scythe {
@@ -20,10 +18,6 @@ class Scythe {
         create: this.create,
         update: this.update
       }
-    );
-    this.store = createStore(
-      reducer,
-      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     );
   }
 
@@ -46,4 +40,3 @@ class Scythe {
 
 const scythe = new Scythe();
 export default scythe;
-export { store };

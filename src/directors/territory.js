@@ -3,13 +3,17 @@ import Mech from 'models/mech';
 import Worker from 'models/worker';
 import * as Factions from 'enums/factions';
 import PubSub from 'pubsub-js';
-import { GAME_INITIALIZED, MOVED_UNIT } from 'enums/topics';
 import territoryConfig from 'config/territory';
 import Territory from 'models/territory';
 import * as Topics from 'enums/topics';
+import {
+  MOVED_UNIT,
+  SELECTED_MOVEABLE_TERRITORY
+} from 'enums/topics';
 
 let territories = [];
 let highlightedTerritories = {};
+let selectedUnits = {};
 
 export default class TerritoryDirector {
 
@@ -18,11 +22,17 @@ export default class TerritoryDirector {
     territories = initializeTerritories();
     
     PubSub.subscribe(Topics.MOVE_UNIT, function(msg, data) {
-      moveUnit(data.unit, data.to, data.from);
+      moveUnit(data.unit, data.to);
+    });
+
+    PubSub.subscribe(Topics.SELECTED_MOVEABLE_TERRITORY, function(msg, data) {
+      for (let id in selectedUnits) {
+        moveUnit(selectedUnits[id], data.to);
+      }
     });
 
     PubSub.subscribe(Topics.SELECTED_UNIT, function(msg, data) {
-      onSelectedUnit(data.unit);
+      onSelectedUnit(data.unit, data.alreadySelected);
     });
   }
 
@@ -57,12 +67,12 @@ function territoryFrame(column, row, width, height) {
 }
 
 function moveUnit(unit, to) {
-
   // Remove unit from old territory's units
   const from = unit.getState().territory;
   if (from) {
     const fromState = from.getState();
-    delete territories[fromState.row][fromState.column].units[unit.id];
+    delete fromState.units[unit.id];
+    territories[fromState.row][fromState.column].setState({ units: fromState.units });
   }
   
   // Set unit's territory
@@ -83,7 +93,7 @@ function moveUnit(unit, to) {
   PubSub.publish(MOVED_UNIT, { unit: unit });
 }
 
-function onSelectedUnit(unit) {
+function onSelectedUnit(unit, alreadySelected) {
   let movableTerritories = {};
 
   // Reset any selected territories
@@ -91,7 +101,10 @@ function onSelectedUnit(unit) {
     highlightedTerritories[key].setState({ movable: false });
   }
 
-  if (unit) {
+  if (alreadySelected) {
+    delete selectedUnits[unit.id];
+  } else {
+    selectedUnits[unit.id] = unit;
     const territory = unit.getState().territory;
     const adjacentPositions = territory.adjacentPositions();
     movableTerritories = getMovableTerritories(unit, adjacentPositions);
@@ -102,6 +115,7 @@ function onSelectedUnit(unit) {
     }
   }
 
+  unit.setState({ selected: !alreadySelected });
   highlightedTerritories = movableTerritories;
 }
 

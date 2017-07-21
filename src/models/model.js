@@ -32,10 +32,6 @@ export default class Model {
     self.setState(params.state ? params.state : {});
   }
 
-  onCreated(createAction) {
-    store.dispatch(createAction(this));
-  }
-
   equals(model) {
     return model && this.id === model.id;
   }

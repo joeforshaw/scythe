@@ -3,7 +3,6 @@ import Model from 'models/model';
 import UnitRenderer from 'renderers/unit';
 import PubSub from 'pubsub-js';
 import { SELECTED_UNIT } from 'enums/topics';
-import { setSelectedUnit } from 'store/actions';
 import * as Territories from 'enums/territories';
 
 export default class Unit extends Model {
@@ -12,7 +11,6 @@ export default class Unit extends Model {
     super(params);
     const self = this;
     this.initialiseMoveRules();
-    PubSub.subscribe(SELECTED_UNIT, function(msg, data) { self.onUnitSelected(data); });
   }
 
   numberOfMoves() {
@@ -43,19 +41,10 @@ export default class Unit extends Model {
   }
 
   onClicked(sprite) {
-    const moves = this.numberOfMoves();
-    const alreadySelected = this.getState().selected;
-    if (alreadySelected) {
-      PubSub.publish(SELECTED_UNIT, { unit: null });
-    } else {
-      PubSub.publish(SELECTED_UNIT, { unit: this });
-    }
-  }
-
-  onUnitSelected(data) {
-    const alreadySelected = this.getState().selected;
-    const nowSelected = !alreadySelected && this.equals(data.unit);
-    this.setState({ selected: nowSelected });
+    PubSub.publish(SELECTED_UNIT, {
+      unit: this,
+      alreadySelected: this.getState().selected
+    });
   }
 
 }

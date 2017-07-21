@@ -2,9 +2,8 @@ import scythe from 'scythe';
 import Model from 'models/model';
 import TerritoryRenderer from 'renderers/territory';
 import config from 'config/territory';
-import { SELECTED_UNIT, MOVED_UNIT } from 'enums/topics';
+import { SELECTED_MOVEABLE_TERRITORY } from 'enums/topics';
 import PubSub from 'pubsub-js';
-import { moveUnit } from 'store/actions';
 import * as TerritorySides from 'enums/territory_sides';
 
 export default class Territory extends Model {
@@ -13,23 +12,15 @@ export default class Territory extends Model {
     state.movable = false;
     state.units = {};
     super({ renderer: TerritoryRenderer, state: state });
-    const self = this;
-    // PubSub.subscribe(SELECTED_UNIT, function(msg, data) { self.onUnitSelected(data); });
-    // PubSub.subscribe(MOVED_UNIT,    function(msg, data) { self.onUnitMoved(data); });
   }
 
   onClicked() {
-    const globalState = scythe.store.getState();
     const state = this.getState();
-    const unit = globalState.selectedUnit;
-    if (state.movable && unit) {
-      const to = this.coordinates();
-      const from = unit.getState().territory.coordinates();
-      const action = moveUnit(unit, to, from);
-      scythe.store.dispatch(action);
+    if (state.movable) {
+      PubSub.publish(SELECTED_MOVEABLE_TERRITORY, { unit: state.unit, to: this.coordinates() });
     }
   }
-  
+
   coordinates() {
     const state = this.getState();
     return { row: state.row, column: state.column };

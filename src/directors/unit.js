@@ -55,6 +55,6 @@ function moveUnitsToInitialPositions() {
   moveUnit(units[Factions.ALBION].workers[1],  { row: 1, column: 2 });
 }
 
-function moveUnit(unit, to, from) {
-  PubSub.publish(MOVE_UNIT, { unit: unit, to: to, from: from });
+function moveUnit(unit, to) {
+  PubSub.publish(MOVE_UNIT, { unit: unit, to: to });
 }
