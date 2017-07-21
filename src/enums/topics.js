@@ -5,6 +5,8 @@ export const GAME_INITIALIZED = 'game.initialized';
 
 export const CREATE_UNIT  = 'create.unit';
 
+export const MOVE_UNIT = 'move.unit';
+
 export const MOVED_UNIT = 'moved.unit';
 
 export const SELECTED_UNIT  = 'selected.unit';
