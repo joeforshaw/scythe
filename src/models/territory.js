@@ -5,6 +5,7 @@ import config from 'config/territory';
 import { SELECTED_UNIT, MOVED_UNIT } from 'enums/topics';
 import PubSub from 'pubsub-js';
 import { moveUnit } from 'store/actions';
+import * as TerritorySides from 'enums/territory_sides';
 
 export default class Territory extends Model {
   
@@ -72,23 +73,24 @@ export default class Territory extends Model {
   adjacentTerritories(params) {
     let territories;
     const state = this.getState();
+    params.globalState = scythe.store.getState();
     if (state.row % 2 === 0) {
       territories = [
-        getAdjacentItem(params, state.row - 1, state.column + 1), // Top right
-        getAdjacentItem(params, state.row    , state.column + 1), // Right
-        getAdjacentItem(params, state.row + 1, state.column + 1), // Bottom right
-        getAdjacentItem(params, state.row + 1, state.column    ), // Bottom left
-        getAdjacentItem(params, state.row    , state.column - 1), // Left
-        getAdjacentItem(params, state.row - 1, state.column    )  // Top left
+        getAdjacentItem(params, TerritorySides.TOP_RIGHT,    state.row - 1, state.column + 1),
+        getAdjacentItem(params, TerritorySides.RIGHT,        state.row,     state.column + 1),
+        getAdjacentItem(params, TerritorySides.BOTTOM_RIGHT, state.row + 1, state.column + 1),
+        getAdjacentItem(params, TerritorySides.BOTTOM_LEFT,  state.row + 1, state.column    ),
+        getAdjacentItem(params, TerritorySides.LEFT,         state.row,     state.column - 1),
+        getAdjacentItem(params, TerritorySides.TOP_LEFT,     state.row - 1, state.column    ) 
       ];
     } else {
       territories = [
-        getAdjacentItem(params, state.row - 1, state.column    ), // Top right
-        getAdjacentItem(params, state.row    , state.column + 1), // Right
-        getAdjacentItem(params, state.row + 1, state.column    ), // Bottom right
-        getAdjacentItem(params, state.row + 1, state.column - 1), // Bottom left
-        getAdjacentItem(params, state.row    , state.column - 1), // Left
-        getAdjacentItem(params, state.row - 1, state.column - 1)  // Top left
+        getAdjacentItem(params, TerritorySides.TOP_RIGHT,    state.row - 1, state.column    ),
+        getAdjacentItem(params, TerritorySides.RIGHT,        state.row,     state.column + 1),
+        getAdjacentItem(params, TerritorySides.BOTTOM_RIGHT, state.row + 1, state.column    ),
+        getAdjacentItem(params, TerritorySides.BOTTOM_LEFT,  state.row + 1, state.column - 1),
+        getAdjacentItem(params, TerritorySides.LEFT,         state.row,     state.column - 1),
+        getAdjacentItem(params, TerritorySides.TOP_LEFT,     state.row - 1, state.column - 1) 
       ]
     }
     return convertToObject(territories);
@@ -96,7 +98,7 @@ export default class Territory extends Model {
 
 }
 
-function getAdjacentItem(params, row, column) {
+function getAdjacentItem(params, side, row, column) {
   const exit = row < 0
     || row > config.rows - 1
     || column < 0
@@ -106,7 +108,13 @@ function getAdjacentItem(params, row, column) {
   if (typeof rowArray === 'undefined') { return undefined; }
   const territory = rowArray[column];
   if (!territory) { return undefined; }
-  if (!params.unit.canMoveTo(territory)) { return undefined; }
+  const allowed = params.unit.canMoveTo({
+    territories: params.territories,
+    territory: territory,
+    territoryState: territory.getState(),
+    side: side
+  });
+  if (!allowed) { return undefined; }
   return territory;
 }
 

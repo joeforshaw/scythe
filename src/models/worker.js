@@ -12,8 +12,14 @@ export default class Worker extends Unit {
     PubSub.publish(CREATE_UNIT, { type: WORKER, unit: this });
 
     // Can't move onto lakes
-    this.addMoveRule(function(state, territory) {
-      return territory.getState().type != Territories.LAKE;
+    this.addMoveRule(function(params) {
+      return params.territoryState.type != Territories.LAKE;
+    });
+
+    // Can't move onto territories controlled by another player
+    this.addMoveRule(function(params) {
+      console.log(params.territories[params.territory.row][params.territory.column]);
+      return true;
     });
 
     // Only nordic workers can cross rivers

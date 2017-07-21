@@ -23,10 +23,9 @@ export default class Unit extends Model {
     this.moveRules = [];
 
     // Can't enter enemy bases
-    this.addMoveRule(function(state, territory) {
-      const territoryState = territory.getState();
-      return territoryState.type != Territories.BASE
-        || territoryState.faction == state.faction
+    this.addMoveRule(function(params) {
+      return params.territoryState.type != Territories.BASE
+        || params.territoryState.faction == params.unitState.faction
     });
   }
 
@@ -34,11 +33,11 @@ export default class Unit extends Model {
     this.moveRules.push(rule);
   }
 
-  canMoveTo(territory) {
+  canMoveTo(params) {
     const state = this.getState();
+    params.unitState = state;
     for (let i = 0; i < this.moveRules.length; i++) {
-      const ruleResult = this.moveRules[i](state, territory);
-      if (!ruleResult) { return false; }
+      if (!this.moveRules[i](params)) { return false; }
     }
     return true;
   }
