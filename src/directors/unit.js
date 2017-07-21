@@ -7,30 +7,31 @@ import { GAME_INITIALIZED } from 'enums/topics';
 import unitConfig from 'config/unit';
 import { MOVE_UNIT } from 'enums/topics';
 
+let units;
+
 export default class UnitDirector {
 
   static init() {
-    UnitDirector.units = initializeUnits();
-    moveUnitsToInitialPositions(UnitDirector.units);
-    return UnitDirector.units;
+    units = initializeUnits();
+    moveUnitsToInitialPositions();
   }
 
 }
 
 function initializeUnits() {
-  const units = [];
+  const newUnits = [];
   for (let faction in Factions.all) {
     const characterState = Object.assign({ faction: faction }, unitConfig.character);
     const workerState = Object.assign({ faction: faction }, unitConfig.worker);
-    units[faction] = {};
-    units[faction].character = new Character(characterState);
-    units[faction].workers = [ new Worker(workerState), new Worker(workerState) ];
-    units[faction].mechs = [];
+    newUnits[faction] = {};
+    newUnits[faction].character = new Character(characterState);
+    newUnits[faction].workers = [ new Worker(workerState), new Worker(workerState) ];
+    newUnits[faction].mechs = [];
   }
-  return units;
+  return newUnits;
 }
 
-function moveUnitsToInitialPositions(units) {
+function moveUnitsToInitialPositions() {
   moveUnit(units[Factions.NORDIC].character,   { row: 0, column: 4 });
   moveUnit(units[Factions.NORDIC].workers[0],  { row: 1, column: 4 });
   moveUnit(units[Factions.NORDIC].workers[1],  { row: 1, column: 5 });

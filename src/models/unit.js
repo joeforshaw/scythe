@@ -46,23 +46,15 @@ export default class Unit extends Model {
     const moves = this.numberOfMoves();
     const alreadySelected = this.getState().selected;
     if (alreadySelected) {
-      PubSub.publish(SELECTED_UNIT, { unit: null, reachable: {} });
+      PubSub.publish(SELECTED_UNIT, { unit: null });
     } else {
-      PubSub.publish(SELECTED_UNIT, {
-        unit: this,
-        reachable: this.territory.reachableTerritories(this, moves)
-      });
+      PubSub.publish(SELECTED_UNIT, { unit: this });
     }
   }
 
   onUnitSelected(data) {
     const alreadySelected = this.getState().selected;
     const nowSelected = !alreadySelected && this.equals(data.unit);
-    if (alreadySelected && !data.unit) {
-      scythe.store.dispatch(setSelectedUnit(null));
-    } else if (nowSelected) {
-      scythe.store.dispatch(setSelectedUnit(this));
-    }
     this.setState({ selected: nowSelected });
   }
 

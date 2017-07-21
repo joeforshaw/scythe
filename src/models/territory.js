@@ -10,119 +10,63 @@ import * as TerritorySides from 'enums/territory_sides';
 export default class Territory extends Model {
   
   constructor(state) {
-    state.reachable = false;
+    state.movable = false;
+    state.units = {};
     super({ renderer: TerritoryRenderer, state: state });
     const self = this;
-    this.units = {};
-    PubSub.subscribe(SELECTED_UNIT, function(msg, data) { self.onUnitSelected(data); });
-    PubSub.subscribe(MOVED_UNIT,    function(msg, data) { self.onUnitMoved(data); });
+    // PubSub.subscribe(SELECTED_UNIT, function(msg, data) { self.onUnitSelected(data); });
+    // PubSub.subscribe(MOVED_UNIT,    function(msg, data) { self.onUnitMoved(data); });
   }
 
   onClicked() {
     const globalState = scythe.store.getState();
     const state = this.getState();
     const unit = globalState.selectedUnit;
-    if (state.reachable && unit) {
+    if (state.movable && unit) {
       const to = this.coordinates();
-      const from = unit.territory.coordinates();
+      const from = unit.getState().territory.coordinates();
       const action = moveUnit(unit, to, from);
       scythe.store.dispatch(action);
-      PubSub.publish(MOVED_UNIT, {
-        unit: unit,
-        reachable: this.reachableTerritories(unit, unit.numberOfMoves())
-      });
     }
   }
-
-  onUnitSelected(data) {
-    this.checkIfReachable(data);
-  }
-
-  onUnitMoved(data) {
-    this.checkIfReachable(data);
-  }
-
-  checkIfReachable(data) {
-    this.setState({ reachable: data.unit && this.id in data.reachable });
-  }
-
+  
   coordinates() {
     const state = this.getState();
     return { row: state.row, column: state.column };
   }
 
-  reachableTerritories(unit, numberOfMoves) {
-    return this.reachableTerritoriesRecurse({
-      unit: unit,
-      movesTaken: 0,
-      maxMoves: numberOfMoves,
-      current: this,
-      visited: {},
-      territories: scythe.store.getState().territories
-    });
-  }
-
-  reachableTerritoriesRecurse(params) {
-    return params.current.adjacentTerritories(params);
-    // const currentState = params.current.getState();
-    // for (let i = 0; i < adjacents.length; i++) {
-    //   adjacents[i].setState({ reachable: true });
-    // }
-  }
-  
-  adjacentTerritories(params) {
-    let territories;
+  adjacentPositions() {
     const state = this.getState();
-    params.globalState = scythe.store.getState();
+    let positions = [];
     if (state.row % 2 === 0) {
-      territories = [
-        getAdjacentItem(params, TerritorySides.TOP_RIGHT,    state.row - 1, state.column + 1),
-        getAdjacentItem(params, TerritorySides.RIGHT,        state.row,     state.column + 1),
-        getAdjacentItem(params, TerritorySides.BOTTOM_RIGHT, state.row + 1, state.column + 1),
-        getAdjacentItem(params, TerritorySides.BOTTOM_LEFT,  state.row + 1, state.column    ),
-        getAdjacentItem(params, TerritorySides.LEFT,         state.row,     state.column - 1),
-        getAdjacentItem(params, TerritorySides.TOP_LEFT,     state.row - 1, state.column    ) 
+      positions = [
+        getAdjacentItem(TerritorySides.TOP_RIGHT,    state.row - 1, state.column + 1),
+        getAdjacentItem(TerritorySides.RIGHT,        state.row,     state.column + 1),
+        getAdjacentItem(TerritorySides.BOTTOM_RIGHT, state.row + 1, state.column + 1),
+        getAdjacentItem(TerritorySides.BOTTOM_LEFT,  state.row + 1, state.column    ),
+        getAdjacentItem(TerritorySides.LEFT,         state.row,     state.column - 1),
+        getAdjacentItem(TerritorySides.TOP_LEFT,     state.row - 1, state.column    ) 
       ];
     } else {
-      territories = [
-        getAdjacentItem(params, TerritorySides.TOP_RIGHT,    state.row - 1, state.column    ),
-        getAdjacentItem(params, TerritorySides.RIGHT,        state.row,     state.column + 1),
-        getAdjacentItem(params, TerritorySides.BOTTOM_RIGHT, state.row + 1, state.column    ),
-        getAdjacentItem(params, TerritorySides.BOTTOM_LEFT,  state.row + 1, state.column - 1),
-        getAdjacentItem(params, TerritorySides.LEFT,         state.row,     state.column - 1),
-        getAdjacentItem(params, TerritorySides.TOP_LEFT,     state.row - 1, state.column - 1) 
+      positions = [
+        getAdjacentItem(TerritorySides.TOP_RIGHT,    state.row - 1, state.column    ),
+        getAdjacentItem(TerritorySides.RIGHT,        state.row,     state.column + 1),
+        getAdjacentItem(TerritorySides.BOTTOM_RIGHT, state.row + 1, state.column    ),
+        getAdjacentItem(TerritorySides.BOTTOM_LEFT,  state.row + 1, state.column - 1),
+        getAdjacentItem(TerritorySides.LEFT,         state.row,     state.column - 1),
+        getAdjacentItem(TerritorySides.TOP_LEFT,     state.row - 1, state.column - 1) 
       ]
     }
-    return convertToObject(territories);
+    return positions.filter(function(p) { return p; })
   }
 
 }
 
-function getAdjacentItem(params, side, row, column) {
+function getAdjacentItem(side, row, column) {
   const exit = row < 0
     || row > config.rows - 1
     || column < 0
     || column > config.columns - 1;
   if (exit) { return undefined; }
-  const rowArray = params.territories[row];
-  if (typeof rowArray === 'undefined') { return undefined; }
-  const territory = rowArray[column];
-  if (!territory) { return undefined; }
-  const allowed = params.unit.canMoveTo({
-    territories: params.territories,
-    territory: territory,
-    territoryState: territory.getState(),
-    side: side
-  });
-  if (!allowed) { return undefined; }
-  return territory;
-}
-
-function convertToObject(territories) {
-  const output = {};
-  for (let i = 0; i < territories.length; i++) {
-    if (!territories[i]) { continue; }
-    output[territories[i].id] = territories[i];
-  }
-  return output;
+  return { row: row, column: column, side: side };
 }

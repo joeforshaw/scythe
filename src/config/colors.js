@@ -2,7 +2,7 @@ import * as Territories from 'enums/territories';
 
 const colors = {
   territories: [],
-  reachable: 0x3bd343
+  movable: 0x3bd343
 };
 colors.territories[Territories.FACTORY]  = 0x52246b;
 colors.territories[Territories.BASE]     = 0x032807;

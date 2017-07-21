@@ -18,7 +18,6 @@ export default class Worker extends Unit {
 
     // Can't move onto territories controlled by another player
     this.addMoveRule(function(params) {
-      console.log(params.territories[params.territory.row][params.territory.column]);
       return true;
     });
 

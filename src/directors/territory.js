@@ -3,36 +3,33 @@ import Mech from 'models/mech';
 import Worker from 'models/worker';
 import * as Factions from 'enums/factions';
 import PubSub from 'pubsub-js';
-import { GAME_INITIALIZED } from 'enums/topics';
+import { GAME_INITIALIZED, MOVED_UNIT } from 'enums/topics';
 import territoryConfig from 'config/territory';
 import Territory from 'models/territory';
 import * as Topics from 'enums/topics';
 
+let territories = [];
+let highlightedTerritories = {};
+
 export default class TerritoryDirector {
 
+  
   static init() {
-    TerritoryDirector.territories = initializeTerritories();
-    PubSub.subscribe(Topics.MOVE_UNIT);
-    return TerritoryDirector.territories;
-  }
-
-  static moveUnit(unit, to, from) {
-    if (from) {
-      delete TerritoryDirector.territories[from.row][from.column].units[unit.id];
-    }
-    unit.territory = TerritoryDirector.territories[to.row][to.column];
-    TerritoryDirector.territories[to.row][to.column].units[unit.id] = unit;
+    territories = initializeTerritories();
     
-    const territoryCenter = unit.territory.center();
-    const unitState = unit.getState();
-    unit.setState(unit.territory.positionForCommonCentre(unit));
-    return state;
+    PubSub.subscribe(Topics.MOVE_UNIT, function(msg, data) {
+      moveUnit(data.unit, data.to, data.from);
+    });
+
+    PubSub.subscribe(Topics.SELECTED_UNIT, function(msg, data) {
+      onSelectedUnit(data.unit);
+    });
   }
 
 }
 
 function initializeTerritories() {
-  const territories = [ [], [], [], [], [], [], [], [], [] ];
+  const newTerritories = [ [], [], [], [], [], [], [], [], [] ];
   for (let i = 0; i < territoryConfig.data.length; i++) {
     const row = territoryConfig.data[i];
     for (let j = 0; j < row.length; j++) {
@@ -43,10 +40,10 @@ function initializeTerritories() {
         territoryConfig.territory.width,
         territoryConfig.territory.height
       );
-      territories[item.row][item.column] = new Territory(Object.assign(item, frame));
+      newTerritories[item.row][item.column] = new Territory(Object.assign(item, frame));
     }
   }
-  return territories;
+  return newTerritories;
 }
 
 function territoryFrame(column, row, width, height) {
@@ -58,3 +55,80 @@ function territoryFrame(column, row, width, height) {
     height: height
   };
 }
+
+function moveUnit(unit, to) {
+
+  // Remove unit from old territory's units
+  const from = unit.getState().territory;
+  if (from) {
+    const fromState = from.getState();
+    delete territories[fromState.row][fromState.column].units[unit.id];
+  }
+  
+  // Set unit's territory
+  unit.setState({ territory: territories[to.row][to.column] });
+
+  // Set territory's units
+  const territoryUnits = territories[to.row][to.column].getState().units;
+  territoryUnits[unit.id] = unit;
+  territories[to.row][to.column].setState({ units: territoryUnits });
+  
+  // Position unit on territory
+  const territoryCenter = territories[to.row][to.column].center();
+  const unitState = unit.getState();
+  unit.setState(territories[to.row][to.column].positionForCommonCentre(unit));
+
+  const adjacentPositions = territories[to.row][to.column].adjacentPositions()
+
+  PubSub.publish(MOVED_UNIT, { unit: unit });
+}
+
+function onSelectedUnit(unit) {
+  let movableTerritories = {};
+
+  // Reset any selected territories
+  for (let key in highlightedTerritories) {
+    highlightedTerritories[key].setState({ movable: false });
+  }
+
+  if (unit) {
+    const territory = unit.getState().territory;
+    const adjacentPositions = territory.adjacentPositions();
+    movableTerritories = getMovableTerritories(unit, adjacentPositions);
+
+    // Set selected territories
+    for (let key in movableTerritories) {
+      movableTerritories[key].setState({ movable: true });
+    }
+  }
+
+  highlightedTerritories = movableTerritories;
+}
+
+function getMovableTerritories(unit, adjacentPositions) {
+  const movableTerritories = {};
+  for (let i = 0; i < adjacentPositions.length; i++) {
+    const territory = getTerritory(adjacentPositions[i]);
+    if (!territory) { continue; }
+    const allowed = unit.canMoveTo({
+      territories: territories,
+      territory: territory,
+      territoryState: territory.getState(),
+      side: adjacentPositions[i].side
+    });
+    if (!allowed) { continue; }
+    movableTerritories[territory.id] = territory;
+  }
+  return movableTerritories;
+}
+
+function getTerritory(position) {
+  const rowArray = territories[position.row];
+  if (!rowArray) { return null; }
+  return rowArray[position.column];
+}
+
+function numberOfMoves(unit) {
+  return 1;
+}
+

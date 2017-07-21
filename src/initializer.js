@@ -8,8 +8,8 @@ import UnitDirector from 'directors/unit';
 export default class Initializer {
 
   run() {
-    const territories = TerritoryDirector.init();
-    const units = UnitDirector.init();
+    TerritoryDirector.init();
+    UnitDirector.init();
   }
 
 }
