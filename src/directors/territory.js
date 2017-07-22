@@ -26,13 +26,17 @@ export default class TerritoryDirector {
     });
 
     PubSub.subscribe(Topics.SELECTED_MOVEABLE_TERRITORY, function(msg, data) {
+      let unit;
       for (let id in selectedUnits) {
+        unit = selectedUnits[id];
         moveUnit(selectedUnits[id], data.to);
       }
+      updateReachableTerritories(unit);
     });
 
     PubSub.subscribe(Topics.SELECTED_UNIT, function(msg, data) {
-      onSelectedUnit(data.unit, data.alreadySelected);
+      updateReachableTerritories(data.unit, data.alreadySelected);
+      data.unit.setState({ selected: !data.alreadySelected });      
     });
   }
 
@@ -93,32 +97,6 @@ function moveUnit(unit, to) {
   PubSub.publish(MOVED_UNIT, { unit: unit });
 }
 
-function onSelectedUnit(unit, alreadySelected) {
-  let movableTerritories = {};
-
-  // Reset any selected territories
-  for (let key in highlightedTerritories) {
-    highlightedTerritories[key].setState({ movable: false });
-  }
-
-  if (alreadySelected) {
-    delete selectedUnits[unit.id];
-  } else {
-    selectedUnits[unit.id] = unit;
-    const territory = unit.getState().territory;
-    const adjacentPositions = territory.adjacentPositions();
-    movableTerritories = getMovableTerritories(unit, adjacentPositions);
-
-    // Set selected territories
-    for (let key in movableTerritories) {
-      movableTerritories[key].setState({ movable: true });
-    }
-  }
-
-  unit.setState({ selected: !alreadySelected });
-  highlightedTerritories = movableTerritories;
-}
-
 function getMovableTerritories(unit, adjacentPositions) {
   const movableTerritories = {};
   for (let i = 0; i < adjacentPositions.length; i++) {
@@ -146,3 +124,28 @@ function numberOfMoves(unit) {
   return 1;
 }
 
+function updateReachableTerritories(unit, alreadySelected) {
+  let movableTerritories = {};
+  const unitState = unit.getState();
+
+  // Reset any selected territories
+  for (let key in highlightedTerritories) {
+    highlightedTerritories[key].setState({ movable: false });
+  }
+
+  if (alreadySelected) {    
+    delete selectedUnits[unit.id];
+  } else {
+    selectedUnits[unit.id] = unit;
+    const territory = unitState.territory;
+    const adjacentPositions = territory.adjacentPositions();
+    movableTerritories = getMovableTerritories(unit, adjacentPositions);
+
+    // Set selected territories
+    for (let key in movableTerritories) {
+      movableTerritories[key].setState({ movable: true });
+    }
+  }
+
+  highlightedTerritories = movableTerritories;
+}
