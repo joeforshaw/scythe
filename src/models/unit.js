@@ -20,10 +20,9 @@ export default class Unit extends Model {
   initialiseMoveRules() {
     this.moveRules = [];
 
-    // Can't enter enemy bases
+    // Can't enter bases
     this.addMoveRule(function(params) {
-      return params.territoryState.type != Territories.BASE
-        || params.territoryState.faction == params.unitState.faction
+      return params.territoryState.type != Territories.BASE;
     });
   }
 
