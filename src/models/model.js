@@ -22,7 +22,7 @@ export default class Model {
 
   initState(initialState) {
     const self = this;
-    self.state = new StateContainer(initialState, function(newState) {
+    self.state = new StateContainer(initialState.state, function(newState) {
       self.update();
     });
   }

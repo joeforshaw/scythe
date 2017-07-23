@@ -6,14 +6,21 @@ import PubSub from 'pubsub-js';
 import { GAME_INITIALIZED } from 'enums/topics';
 import unitConfig from 'config/unit';
 import { MOVE_UNIT } from 'enums/topics';
+import StateContainer from 'utils/state_container';
 
-let units;
+const state = new StateContainer({
+  units: {}
+});
 
 export default class UnitDirector {
 
   static init() {
-    units = initializeUnits();
+    state.set({ units: initializeUnits() });
     moveUnitsToInitialPositions();
+  }
+
+  static state() {
+    return state.get();
   }
 
 }
@@ -32,6 +39,7 @@ function initializeUnits() {
 }
 
 function moveUnitsToInitialPositions() {
+  const units = state.get().units;
   moveUnit(units[Factions.NORDIC].character,   { row: 0, column: 4 });
   moveUnit(units[Factions.NORDIC].workers[0],  { row: 1, column: 4 });
   moveUnit(units[Factions.NORDIC].workers[1],  { row: 1, column: 5 });
