@@ -17,7 +17,7 @@ export default class UnitRenderer extends Renderer {
 
   update(model) {
     if (!this.unit) { return; }
-    const state = model.getState();
+    const state = model.state.get();
     this.unit.x = state.x;
     this.unit.y = state.y;
 

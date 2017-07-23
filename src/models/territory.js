@@ -15,19 +15,19 @@ export default class Territory extends Model {
   }
 
   onClicked() {
-    const state = this.getState();
+    const state = this.state.get();
     if (state.movable) {
       PubSub.publish(SELECTED_MOVEABLE_TERRITORY, { unit: state.unit, to: this.coordinates() });
     }
   }
 
   coordinates() {
-    const state = this.getState();
+    const state = this.state.get();
     return { row: state.row, column: state.column };
   }
 
   adjacentPositions() {
-    const state = this.getState();
+    const state = this.state.get();
     let positions = [];
     if (state.row % 2 === 0) {
       positions = [

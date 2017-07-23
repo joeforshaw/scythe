@@ -1,6 +1,7 @@
 import scythe from 'scythe';
 import PubSub from 'pubsub-js';
 import * as Topics from 'enums/topics';
+import StateContainer from 'utils/state_container';
 
 export default class Model {
 
@@ -12,24 +13,18 @@ export default class Model {
   
   initRender(params) {
     const self = this;
-    let renderer = new params.renderer(this, params.state);
+    let renderer = new params.renderer(self, params.state);
     self.update = function() {
       if (!renderer.update) { return; }
       renderer.update(self);
     }
   }
 
-  initState(params) {
+  initState(initialState) {
     const self = this;
-    let state = {}
-    self.setState = function(newState) {
-      Object.assign(state, newState);
+    self.state = new StateContainer(initialState, function(newState) {
       self.update();
-    };
-    self.getState = function() {
-      return Object.assign({}, state); 
-    };
-    self.setState(params.state ? params.state : {});
+    });
   }
 
   equals(model) {
@@ -37,7 +32,7 @@ export default class Model {
   }
 
   center() {
-    const state = this.getState();
+    const state = this.state.get();
     return {
       x: state.x + (state.width / 2),
       y: state.y + (state.height / 2)
@@ -45,8 +40,8 @@ export default class Model {
   }
 
   positionForCommonCentre(model) {
-    const state = this.getState();
-    const modelState = model.getState();
+    const state = this.state.get();
+    const modelState = model.state.get();
     const centre = {
       x: state.x - ((modelState.width  - state.width) / 2),
       y: state.y - ((modelState.height - state.height) / 2)

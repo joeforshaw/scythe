@@ -31,7 +31,7 @@ export default class Unit extends Model {
   }
 
   canMoveTo(params) {
-    const state = this.getState();
+    const state = this.state.get();
     params.unitState = state;
     for (let i = 0; i < this.moveRules.length; i++) {
       if (!this.moveRules[i](params)) { return false; }
@@ -42,7 +42,7 @@ export default class Unit extends Model {
   onClicked(sprite) {
     PubSub.publish(SELECTED_UNIT, {
       unit: this,
-      alreadySelected: this.getState().selected
+      alreadySelected: this.state.get().selected
     });
   }
 

@@ -17,7 +17,6 @@ let selectedUnits = {};
 
 export default class TerritoryDirector {
 
-  
   static init() {
     territories = initializeTerritories();
     
@@ -36,7 +35,7 @@ export default class TerritoryDirector {
 
     PubSub.subscribe(Topics.SELECTED_UNIT, function(msg, data) {
       updateReachableTerritories(data.unit, data.alreadySelected);
-      data.unit.setState({ selected: !data.alreadySelected });      
+      data.unit.state.set({ selected: !data.alreadySelected });      
     });
   }
 
@@ -72,27 +71,27 @@ function territoryFrame(column, row, width, height) {
 
 function moveUnit(unit, to) {
   // Remove unit from old territory's units
-  const from = unit.getState().territory;
+  const from = unit.state.get().territory;
   if (from) {
-    const fromState = from.getState();
+    const fromState = from.state.get();
     delete fromState.units[unit.id];
-    territories[fromState.row][fromState.column].setState({ units: fromState.units });
+    territories[fromState.row][fromState.column].state.set({ units: fromState.units });
   }
   
   // Set unit's territory
-  unit.setState({ territory: territories[to.row][to.column] });
+  unit.state.set({ territory: territories[to.row][to.column] });
 
   // Set territory's units
-  const territoryUnits = territories[to.row][to.column].getState().units;
+  const territoryUnits = territories[to.row][to.column].state.get().units;
   territoryUnits[unit.id] = unit;
-  territories[to.row][to.column].setState({ units: territoryUnits });
+  territories[to.row][to.column].state.set({ units: territoryUnits });
   
   // Position unit on territory
   const territoryCenter = territories[to.row][to.column].center();
-  const unitState = unit.getState();
-  unit.setState(territories[to.row][to.column].positionForCommonCentre(unit));
+  const unitState = unit.state.get();
+  unit.state.set(territories[to.row][to.column].positionForCommonCentre(unit));
 
-  const adjacentPositions = territories[to.row][to.column].adjacentPositions()
+  const adjacentPositions = territories[to.row][to.column].adjacentPositions();
 
   PubSub.publish(MOVED_UNIT, { unit: unit });
 }
@@ -105,7 +104,7 @@ function getMovableTerritories(unit, adjacentPositions) {
     const allowed = unit.canMoveTo({
       territories: territories,
       territory: territory,
-      territoryState: territory.getState(),
+      territoryState: territory.state.get(),
       side: adjacentPositions[i].side
     });
     if (!allowed) { continue; }
@@ -126,11 +125,11 @@ function numberOfMoves(unit) {
 
 function updateReachableTerritories(unit, alreadySelected) {
   let movableTerritories = {};
-  const unitState = unit.getState();
+  const unitState = unit.state.get();
 
   // Reset any selected territories
   for (let key in highlightedTerritories) {
-    highlightedTerritories[key].setState({ movable: false });
+    highlightedTerritories[key].state.set({ movable: false });
   }
 
   if (alreadySelected) {    
@@ -143,7 +142,7 @@ function updateReachableTerritories(unit, alreadySelected) {
 
     // Set selected territories
     for (let key in movableTerritories) {
-      movableTerritories[key].setState({ movable: true });
+      movableTerritories[key].state.set({ movable: true });
     }
   }
 

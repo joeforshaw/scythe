@@ -26,7 +26,7 @@ function addMoveRules(worker) {
   // Can't move onto territories controlled by another player
   worker.addMoveRule(function(params) {
     for (let id in params.territoryState.units) {
-      const otherUnitState = params.territoryState.units[id].getState();
+      const otherUnitState = params.territoryState.units[id].state.get();
       if (params.unitState.faction != otherUnitState.faction) { return false; }
     }
     return true;
@@ -34,9 +34,9 @@ function addMoveRules(worker) {
 
   // Only nordic workers can cross rivers
   worker.addMoveRule(function(params) {
-    const workerState = worker.getState();
+    const workerState = worker.state.get();
     if (workerState.faction == NORDIC) { return true; }
-    const currentTerritoryState = workerState.territory.getState();
+    const currentTerritoryState = workerState.territory.state.get();
     if (!currentTerritoryState.rivers) { return true; }
     return currentTerritoryState.rivers.indexOf(params.side) < 0; 
   });

@@ -93,5 +93,44 @@ export default {
       { column: 2, row: 8, type: Territories.BASE, faction: Factions.CRIMEA },
       { column: 3, row: 8, type: Territories.VILLAGE }
     ]
+  ],
+  factory: { column: 3, row: 4 },  
+  tunnels: [
+    { column: 3, row: 2 },
+    { column: 2, row: 3 },
+    { column: 5, row: 3 },
+    { column: 2, row: 5 },
+    { column: 5, row: 5 },
+    { column: 3, row: 6 }
+  ],
+  mountains: [
+    { column: 1, row: 1 },
+    { column: 4, row: 2 },
+    { column: 2, row: 3 },
+    { column: 4, row: 4 },
+    { column: 6, row: 4 },
+    { column: 0, row: 6 },
+    { column: 5, row: 6 },
+    { column: 4, row: 7 }
+  ],
+  villages: [
+    { column: 3, row: 1 },
+    { column: 6, row: 1 },
+    { column: 6, row: 3 },
+    { column: 1, row: 4 },
+    { column: 5, row: 5 },
+    { column: 1, row: 6 },
+    { column: 2, row: 6 },
+    { column: 5, row: 7 },
+    { column: 3, row: 8 }
+  ],
+  lakes: [
+    { column: 0, row: 2 },
+    { column: 2, row: 2 },
+    { column: 4, row: 3 },
+    { column: 2, row: 4 },
+    { column: 4, row: 5 },
+    { column: 6, row: 5 },
+    { column: 2, row: 7 }
   ]
 }
