@@ -2,10 +2,11 @@ import Character from 'models/character';
 import Mech from 'models/mech';
 import Worker from 'models/worker';
 import * as Factions from 'enums/factions';
+import * as Topics from 'enums/topics';
+import * as Territories from 'enums/territories';
 import PubSub from 'pubsub-js';
 import territoryConfig from 'config/territory';
 import Territory from 'models/territory';
-import * as Topics from 'enums/topics';
 import StateContainer from 'utils/state_container';
 import {
   MOVED_UNIT,
@@ -149,7 +150,9 @@ function updateReachableTerritories(unit, alreadySelected) {
   } else {
     selectedUnits[unit.id] = unit;
     const territory = unitState.territory;
-    movableTerritories = getMovableTerritories(unit, territory.adjacentPositions());
+    let adjacentPositions = territory.adjacentPositions();
+    adjacentPositions = getAdjacentPositions(territory);
+    movableTerritories = getMovableTerritories(unit, adjacentPositions);
 
     // Set selected territories
     for (let key in movableTerritories) {
@@ -161,4 +164,23 @@ function updateReachableTerritories(unit, alreadySelected) {
     selectedUnits: selectedUnits,
     highlightedTerritories: movableTerritories
   });
+}
+
+function getAdjacentPositions(territory) {
+  // Immediately adjacent
+  let adjacents = territory.adjacentPositions();
+
+  // Adjacent via tunnels
+  const territoryState = territory.state.get();
+  if (territoryState.tunnel) {
+    for (let i = 0; i < territoryConfig.tunnels.length; i++) {
+      const tunnel = territoryConfig.tunnels[i];
+      const isTerritory = territoryState.row == tunnel.row
+        && territoryState.column == tunnel.column
+      if (!isTerritory) { adjacents.push(tunnel); }
+    }
+  }
+
+  console.log(adjacents);
+  return adjacents;
 }
