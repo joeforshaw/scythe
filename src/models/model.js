@@ -6,7 +6,7 @@ import StateContainer from 'utils/state_container';
 export default class Model {
 
   constructor(params) {
-    this.initRender(params);
+    if (params.renderer) { this.initRender(params); }
     this.initState(params);
     this.id = this.generateID(16);
   }
@@ -23,7 +23,7 @@ export default class Model {
   initState(initialState) {
     const self = this;
     self.state = new StateContainer(initialState.state, function(newState) {
-      self.update();
+      if (self.update) { self.update(); }
     });
   }
 

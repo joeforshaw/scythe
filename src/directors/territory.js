@@ -135,7 +135,6 @@ function numberOfMoves(unit) {
 function updateReachableTerritories(unit, alreadySelected) {
   let movableTerritories = {};
   const territoryState = state.get();
-  console.log(territoryState);
   const highlightedTerritories = territoryState.highlightedTerritories;
   const selectedUnits = territoryState.selectedUnits;
   const unitState = unit.state.get();
@@ -181,6 +180,5 @@ function getAdjacentPositions(territory) {
     }
   }
 
-  console.log(adjacents);
   return adjacents;
 }

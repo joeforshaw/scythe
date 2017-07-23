@@ -3,7 +3,8 @@ export const GAME_CREATE      = 'game.create';
 export const GAME_UPDATE      = 'game.update';
 export const GAME_INITIALIZED = 'game.initialized';
 
-export const CREATE_UNIT  = 'create.unit';
+export const CREATE_UNIT   = 'create.unit';
+export const CREATE_PLAYER = 'create.player';
 
 export const MOVE_UNIT = 'move.unit';
 
