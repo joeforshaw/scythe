@@ -2,7 +2,7 @@ import Unit from 'models/unit';
 import WorkerRenderer from 'renderers/worker';
 import PubSub from 'pubsub-js';
 import { WORKER } from 'enums/units';
-import { CREATE_UNIT } from 'enums/topics';
+import { CREATED_UNIT } from 'enums/topics';
 import { NORDIC } from 'enums/factions';
 import * as Territories from 'enums/territories';
 
@@ -10,7 +10,7 @@ export default class Worker extends Unit {
   
   constructor(state) {
     super({ renderer: WorkerRenderer, state: state });
-    PubSub.publish(CREATE_UNIT, { type: WORKER, unit: this });
+    PubSub.publish(CREATED_UNIT, { type: WORKER, unit: this });
     addMoveRules(this);
   }
 
