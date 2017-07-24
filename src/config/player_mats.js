@@ -1,182 +1,308 @@
 import * as Actions from 'enums/actions';
 import * as PlayerMats from 'enums/player_mats';
 
-const config = {};
+const config = {
+  initial: {}
+};
 
 // Top row actions
 for (let i = 0; i < PlayerMats.all; i++) {
-  config[PlayerMats.all[i]].actions[Actions.MOVE] = {
+  config.initial[PlayerMats.all[i]].actions[Actions.MOVE] = {
     cost: [],
     benefit: [
-      [ { move: 2, max: 3 } ],
-      [ { coin: 1, max: 1 } ],
+      [ { move: 2, upgrades: 1 } ],
+      [ { coin: 1 } ],
     ]
   };
-  config[PlayerMats.all[i]].actions[Actions.TRADE] = {
+  config.initial[PlayerMats.all[i]].actions[Actions.TRADE] = {
     cost: [
-      { coin: 1, min: 1 }
+      { coin: 1 }
     ],
     benefit: [
-      { resource: 2, max: 2 },
-      { popularity: 1, max: 2 }
+      { resource: 2 },
+      { popularity: 1, upgrades: 1 }
     ]
   };
-  config[PlayerMats.all[i]].actions[Actions.PRODUCE] = {
+  config.initial[PlayerMats.all[i]].actions[Actions.PRODUCE] = {
     cost: [
-      { power: 0, max: 1 },
-      { popularity: 0, max: 1 },
-      { coin: 0, max: 1 }
+      { power: 0, downgrades: 1 },
+      { popularity: 0, downgrades: 1 },
+      { coin: 0, downgrades: 1 }
     ],
     benefit: [
-      [ { move: 2, max: 3 } ],
-      [ { coin: 1, max: 1 } ],
+      [ { produce: 2, upgrades: 1 } ],
     ]
   };
-  config[PlayerMats.all[i]].actions[Actions.BOLSTER] = {
+  config.initial[PlayerMats.all[i]].actions[Actions.BOLSTER] = {
     cost: [
-      { coin: 1, min: 1 }
+      { coin: 1 }
     ],
     benefit: [
-      [ { power: 2, max: 3 }, { popularity: 0, max: 1 } ],
-      [ { combatCards: 1, max: 2 }, { popularity: 0, max: 1 } ],
+      [ { power: 2, upgrades: 1 } ],
+      [ { combatCards: 1, upgrades: 1 } ],
     ]
   };
 }
 
 // Bottom row actions
-config[PlayerMats.INDUSTRIAL] = { actions: {} };
-config[PlayerMats.INDUSTRIAL].actions[Actions.UPGRADE] = {
+config.initial[PlayerMats.INDUSTRIAL] = { actions: {} };
+config.initial[PlayerMats.INDUSTRIAL].actions[Actions.UPGRADE] = {
   cost: [
-    { oil: 3, min: 2 },
+    { oil: 3, upgrades: 1 },
   ],
   benefit: [
-    { upgrade: 1, max: 1 },
-    { coin: 3, max: 3 },
-    { power: 0, max: 1 },
+    { upgrade: 1 },
+    { coin: 3 },
+    { power: 0 },
   ]
 };
-config[PlayerMats.INDUSTRIAL].actions[Actions.DEPLOY] = {
-
-};
-config[PlayerMats.INDUSTRIAL].actions[Actions.BUILD] = {
-
-};
-config[PlayerMats.INDUSTRIAL].actions[Actions.ENLIST] = {
-
-};
-
-config[PlayerMats.ENGINEERING] = { actions: {} };
-
-config[PlayerMats.ENGINEERING].actions[Actions.UPGRADE] = {
+config.initial[PlayerMats.INDUSTRIAL].actions[Actions.DEPLOY] = {
   cost: [
-    { oil: 3, min: 2 },
+    { metal: 3, upgrades: 2 },
   ],
   benefit: [
-    { upgrade: 1, max: 1 },
-    { coin: 2, max: 2 },
-    { power: 0, max: 1 },
+    { deploy: 1 },
+    { coin: 2 }
   ]
 };
-config[PlayerMats.ENGINEERING].actions[Actions.DEPLOY] = {
-
-};
-config[PlayerMats.ENGINEERING].actions[Actions.BUILD] = {
-
-};
-config[PlayerMats.ENGINEERING].actions[Actions.ENLIST] = {
-
-};
-
-config[PlayerMats.MILITANT] = { actions: {} };
-
-config[PlayerMats.MILITANT].actions[Actions.UPGRADE] = {
-
-};
-config[PlayerMats.MILITANT].actions[Actions.DEPLOY] = {
-
-};
-config[PlayerMats.MILITANT].actions[Actions.BUILD] = {
-
-};
-config[PlayerMats.MILITANT].actions[Actions.ENLIST] = {
-
-};
-
-config[PlayerMats.PATRIOTIC] = { actions: {} };
-config[PlayerMats.PATRIOTIC].actions[Actions.UPGRADE] = {
+config.initial[PlayerMats.INDUSTRIAL].actions[Actions.BUILD] = {
   cost: [
-    { oil: 2, min: 2 },
+    { wood: 3, upgrades: 1 },
   ],
   benefit: [
-    { upgrade: 1, max: 1 },
-    { coin: 1, max: 1 },
-    { power: 0, max: 1 },
+    { build: 1 },
+    { coin: 1 }
   ]
 };
-config[PlayerMats.PATRIOTIC].actions[Actions.DEPLOY] = {
-
-};
-config[PlayerMats.PATRIOTIC].actions[Actions.BUILD] = {
-
-};
-config[PlayerMats.PATRIOTIC].actions[Actions.ENLIST] = {
-
-};
-
-config[PlayerMats.INNOVATIVE] = { actions: {} };
-
-config[PlayerMats.INNOVATIVE].actions[Actions.UPGRADE] = {
-
-};
-config[PlayerMats.INNOVATIVE].actions[Actions.DEPLOY] = {
-
-};
-config[PlayerMats.INNOVATIVE].actions[Actions.BUILD] = {
-
-};
-config[PlayerMats.INNOVATIVE].actions[Actions.ENLIST] = {
-
-};
-
-config[PlayerMats.MECHANICAL] = { actions: {} };
-config[PlayerMats.MECHANICAL].actions[Actions.UPGRADE] = {
+config.initial[PlayerMats.INDUSTRIAL].actions[Actions.ENLIST] = {
   cost: [
-    { oil: 3, min: 2 },
+    { food: 4, upgrades: 2 },
   ],
   benefit: [
-    { upgrade: 1, max: 1 },
-    { power: 0, max: 1 },
+    { enlist: 1 }
   ]
 };
-config[PlayerMats.MECHANICAL].actions[Actions.DEPLOY] = {
 
-};
-config[PlayerMats.MECHANICAL].actions[Actions.BUILD] = {
-
-};
-config[PlayerMats.MECHANICAL].actions[Actions.ENLIST] = {
-
-};
-
-config[PlayerMats.AGRICULTURAL] = { actions: {} };
-config[PlayerMats.AGRICULTURAL].actions[Actions.UPGRADE] = {
+config.initial[PlayerMats.ENGINEERING] = { actions: {} };
+config.initial[PlayerMats.ENGINEERING].actions[Actions.UPGRADE] = {
   cost: [
-    { oil: 2, min: 2 },
+    { oil: 3, upgrades: 1 },
   ],
   benefit: [
-    { upgrade: 1, max: 1 },
-    { coin: 1, max: 1 },
-    { power: 0, max: 1 },
+    { upgrade: 1 },
+    { coin: 2 },
   ]
 };
-config[PlayerMats.AGRICULTURAL].actions[Actions.DEPLOY] = {
-
+config.initial[PlayerMats.ENGINEERING].actions[Actions.DEPLOY] = {
+  cost: [
+    { metal: 4, upgrades: 2 },
+  ],
+  benefit: [
+    { deploy: 1 },
+  ]
 };
-config[PlayerMats.AGRICULTURAL].actions[Actions.BUILD] = {
-
+config.initial[PlayerMats.ENGINEERING].actions[Actions.BUILD] = {
+  cost: [
+    { wood: 3, upgrades: 2 },
+  ],
+  benefit: [
+    { build: 1 },
+    { coin: 3 }
+  ]
 };
-config[PlayerMats.AGRICULTURAL].actions[Actions.ENLIST] = {
+config.initial[PlayerMats.ENGINEERING].actions[Actions.ENLIST] = {
+  cost: [
+    { food: 3, upgrades: 1 },
+  ],
+  benefit: [
+    { enlist: 1 },
+    { coin: 1 }
+  ]
+};
 
+config.initial[PlayerMats.MILITANT] = { actions: {} };
+config.initial[PlayerMats.MILITANT].actions[Actions.UPGRADE] = {
+  cost: [
+    { oil: 3, upgrades: 2 },
+  ],
+  benefit: [
+    { upgrade: 1 },
+  ]
+};
+config.initial[PlayerMats.MILITANT].actions[Actions.DEPLOY] = {
+  cost: [
+    { metal: 3, upgrades: 1 },
+  ],
+  benefit: [
+    { deploy: 1 },
+    { coin: 3 }
+  ]
+};
+config.initial[PlayerMats.MILITANT].actions[Actions.BUILD] = {
+  cost: [
+    { wood: 4, upgrades: 1 },
+  ],
+  benefit: [
+    { build: 1 },
+    { coin: 1 }
+  ]
+};
+config.initial[PlayerMats.MILITANT].actions[Actions.ENLIST] = {
+  cost: [
+    { food: 3, upgrades: 2 },
+  ],
+  benefit: [
+    { enlist: 1 },
+    { coin: 2 }
+  ]
+};
+
+config.initial[PlayerMats.PATRIOTIC] = { actions: {} };
+config.initial[PlayerMats.PATRIOTIC].actions[Actions.UPGRADE] = {
+  cost: [
+    { oil: 2 },
+  ],
+  benefit: [
+    { upgrade: 1 },
+    { coin: 1 }
+  ]
+};
+config.initial[PlayerMats.PATRIOTIC].actions[Actions.DEPLOY] = {
+  cost: [
+    { metal: 4, upgrades: 3 },
+  ],
+  benefit: [
+    { deploy: 1 },
+    { coin: 3 }
+  ]
+};
+config.initial[PlayerMats.PATRIOTIC].actions[Actions.BUILD] = {
+  cost: [
+    { wood: 4, upgrades: 2 },
+  ],
+  benefit: [
+    { build: 1 },
+  ]
+};
+config.initial[PlayerMats.PATRIOTIC].actions[Actions.ENLIST] = {
+  cost: [
+    { food: 3, upgrades: 1 },
+  ],
+  benefit: [
+    { enlist: 1 },
+    { coin: 2 }
+  ]
+};
+
+config.initial[PlayerMats.INNOVATIVE] = { actions: {} };
+config.initial[PlayerMats.INNOVATIVE].actions[Actions.UPGRADE] = {
+  cost: [
+    { oil: 3 },
+  ],
+  benefit: [
+    { upgrade: 1 },
+    { coin: 3 }
+  ]
+};
+config.initial[PlayerMats.INNOVATIVE].actions[Actions.DEPLOY] = {
+  cost: [
+    { metal: 3, upgrades: 1 },
+  ],
+  benefit: [
+    { deploy: 1 },
+    { coin: 1 }
+  ]
+};
+config.initial[PlayerMats.INNOVATIVE].actions[Actions.BUILD] = {
+  cost: [
+    { wood: 4, upgrades: 3 },
+  ],
+  benefit: [
+    { build: 1 },
+    { coin: 2 }
+  ]
+};
+config.initial[PlayerMats.INNOVATIVE].actions[Actions.ENLIST] = {
+  cost: [
+    { food: 3, upgrades: 2 },
+  ],
+  benefit: [
+    { enlist: 1 }
+  ]
+};
+
+config.initial[PlayerMats.MECHANICAL] = { actions: {} };
+config.initial[PlayerMats.MECHANICAL].actions[Actions.UPGRADE] = {
+  cost: [
+    { oil: 3, upgrades: 1 },
+  ],
+  benefit: [
+    { upgrade: 1 },
+  ]
+};
+config.initial[PlayerMats.MECHANICAL].actions[Actions.DEPLOY] = {
+  cost: [
+    { metal: 3, upgrades: 2 },
+  ],
+  benefit: [
+    { deploy: 1 },
+    { coin: 2 }
+  ]
+};
+config.initial[PlayerMats.MECHANICAL].actions[Actions.BUILD] = {
+  cost: [
+    { wood: 3, upgrades: 1 },
+  ],
+  benefit: [
+    { build: 1 },
+    { coin: 2 }
+  ]
+};
+config.initial[PlayerMats.MECHANICAL].actions[Actions.ENLIST] = {
+  cost: [
+    { food: 4, upgrades: 2 },
+  ],
+  benefit: [
+    { enlist: 1 },
+    { coin: 2 }
+  ]
+};
+
+config.initial[PlayerMats.AGRICULTURAL] = { actions: {} };
+config.initial[PlayerMats.AGRICULTURAL].actions[Actions.UPGRADE] = {
+  cost: [
+    { oil: 2 },
+  ],
+  benefit: [
+    { upgrade: 1 },
+    { coin: 1 },
+  ]
+};
+config.initial[PlayerMats.AGRICULTURAL].actions[Actions.DEPLOY] = {
+  cost: [
+    { metal: 4, upgrades: 2 },
+  ],
+  benefit: [
+    { deploy: 1 },
+  ]
+};
+config.initial[PlayerMats.AGRICULTURAL].actions[Actions.BUILD] = {
+  cost: [
+    { wood: 4, upgrades: 2 },
+  ],
+  benefit: [
+    { build: 1 },
+    { coin: 2 }
+  ]
+};
+config.initial[PlayerMats.AGRICULTURAL].actions[Actions.ENLIST] = {
+  cost: [
+    { food: 3, upgrades: 2 },
+  ],
+  benefit: [
+    { enlist: 1 },
+    { coin: 3 }
+  ]
 };
 
 export default config;
