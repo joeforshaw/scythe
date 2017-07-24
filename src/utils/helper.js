@@ -9,3 +9,11 @@ export function shuffleArray(unshuffled) {
   }
   return shuffled;
 };
+
+export function modelArrayToObject(modelArray) {
+  const models = {};
+  for (let i = 0; i < modelArray.length; i++) {
+    models[modelArray[i].id] = modelArray[i];
+  }
+  return models;
+}
