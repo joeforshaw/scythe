@@ -7,19 +7,25 @@ import { shuffleArray } from 'utils/helper';
 import playerConfig from 'config/player';
 
 const state = new StateContainer({
+  playerMats: {},
   players: {}
 });
 
 export default class PlayerDirector {
 
   static init() {
-    state.set({ players: initializePlayers() });
+    state.set({ playerMats: initializePlayersMats() });
+    state.set({ players:    initializePlayers(playerMats) });
   }
 
   static state() {
     return state.get();
   }
 
+}
+
+function initializePlayersMats() {
+  
 }
 
 function initializePlayers() {
