@@ -9,24 +9,63 @@ export default class PlayerMatRenderer extends Renderer {
 
   constructor(model, state) {
     super(model, state);
+    this.width = playerMatConfig.width * config.width;
+    this.height = playerMatConfig.height * config.height;
+    this.paddingAmount = this.width * playerMatConfig.padding;
     this.initializeBackground();
+    this.initializeActionGroups();
   }
 
   initializeBackground() {
-    const width = playerMatConfig.width * config.width;
-    const height = playerMatConfig.height * config.height;
-    const x = config.width - width;
-    const y = 0;
-    this.background = scythe.game.add.graphics(x, y);
-    this.background.beginFill(colors.playerMat);
-    this.background.lineStyle(0, colors.playerMat, 0);
-    this.background.drawRect(0, 0, width, height);
+    this.x = window.outerWidth - this.width;
+    this.y = 0;
+    this.background = scythe.game.add.graphics(this.x, this.y);
+    this.background.beginFill(colors.playerMat.background);
+    this.background.lineStyle(0, colors.playerMat.background, 0);
+    this.background.drawRect(0, 0, this.width, this.height);
     this.background.endFill();
-    scythe.game.world.bringToTop(this.background);
+  }
+
+  initializeActionGroups() {
+    this.actionGroups = [];
+    this.actions = [];
+    const numberOfActionGroups = 4;
+    const width = (this.width - ((numberOfActionGroups + 1) * this.paddingAmount)) / numberOfActionGroups;
+    const height = this.height - (2 * this.paddingAmount);
+    for (let i = 0; i < numberOfActionGroups; i++) {
+      const x = (this.paddingAmount + width) * i;
+      const y = this.paddingAmount;
+      this.actionGroups[i] = scythe.game.add.graphics(this.x + this.paddingAmount, this.y + this.paddingAmount);
+      this.actionGroups[i].beginFill(colors.playerMat.actionGroup);
+      this.actionGroups[i].lineStyle(0, colors.playerMat.actionGroup, 0);
+      this.actionGroups[i].drawRect(x, 0, width, height);
+      this.actionGroups[i].endFill();
+      this.initializeGroupActions(i);
+    }
+  }
+
+  initializeGroupActions(i) {
+    const width = this.actionGroups[i].width - (2 * this.paddingAmount);
+    const height = (this.actionGroups[i].height - (2 * this.paddingAmount)) / 3;
+    const x = (this.paddingAmount + this.actionGroups[i].width) * i;
+    const bottomY = this.actionGroups[i].height - (2 *this.paddingAmount) - height;
+
+    this.actions[i] = [];
+    this.actions[i][0] = scythe.game.add.graphics(this.actionGroups[i].x + this.paddingAmount, this.actionGroups[i].y + this.paddingAmount);
+    this.actions[i][0].beginFill(colors.playerMat.action);
+    this.actions[i][0].lineStyle(0, colors.playerMat.action, 0);
+    this.actions[i][0].drawRect(x, 0, width, height);
+    this.actions[i][0].endFill();
+
+    this.actions[i] = [];
+    this.actions[i][1] = scythe.game.add.graphics(this.actionGroups[i].x + this.paddingAmount, this.actionGroups[i].y + this.paddingAmount);
+    this.actions[i][1].beginFill(colors.playerMat.action);
+    this.actions[i][1].lineStyle(0, colors.playerMat.action, 0);
+    this.actions[i][1].drawRect(x, bottomY, width, height);
+    this.actions[i][1].endFill();
   }
 
   update(model) {
-    
   }
 
 }

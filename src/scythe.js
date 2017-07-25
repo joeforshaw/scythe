@@ -9,8 +9,8 @@ class Scythe {
 
   constructor() {
     this.game = new Phaser.Game(
-      config.width,
-      config.height,
+      "100%", // config.width,
+      "100%", // config.height,
       config.renderMode,
       config.containerID,
       {
