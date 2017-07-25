@@ -9,10 +9,10 @@ export default class PlayerMatRenderer extends Renderer {
 
   constructor(model, state) {
     super(model, state);
-    this.initializeBackground(model);
+    this.initializeBackground();
   }
 
-  initializeBackground(model) {
+  initializeBackground() {
     const width = playerMatConfig.width * config.width;
     const height = playerMatConfig.height * config.height;
     const x = config.width - width;
