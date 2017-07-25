@@ -28,11 +28,13 @@ export default class PlayerDirector {
 
 function initializePlayersMats() {
   const playersMats = [];
-  for (let i = 0; i < playerMatsConfig.initialAmounts.playersMat.length; i++) {
-    const initialState = playerConfig.initialAmounts.playersMat[i];
-    players.push(new PlayerMat(initialState));
+  for (let i = 0; i < PlayerMats.all.length; i++) {
+    const initialState = playerMatsConfig.initial[PlayerMats.all[i]];
+    const playerMat = new PlayerMat(initialState);
+    playersMats.push(playerMat);
+    console.log(initialState);    
   }
-  return modelArrayToObject(players);
+  return modelArrayToObject(playersMats);
 }
 
 function initializePlayers() {
@@ -43,8 +45,8 @@ function initializePlayers() {
     const faction = randomFactions[i];
     const playerMat = randomPlayerMats[i];
     let playerState = { faction: faction, playerMat: playerMat };
-    Object.assign(playerState, playerConfig.initialAmounts.faction[faction]);
-    Object.assign(playerState, playerConfig.initialAmounts.playerMat[playerMat]);
+    Object.assign(playerState, playerConfig.initial.faction[faction]);
+    Object.assign(playerState, playerConfig.initial.playerMat[playerMat]);
     players.push(new Player(playerState));
   }
   return modelArrayToObject(players);

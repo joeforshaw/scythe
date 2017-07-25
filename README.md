@@ -2,22 +2,8 @@
 
 Things that need doing:
 
-1. Pawn movement.
-    1. ~~Allow them to be selected.~~
-    1. ~~Highlight tiles that the pawn can be moved to.~~
-    1. ~~Move the pawn.~~
-    1. Upgrade specific moves.
-    1. Faction specific moves.
-1. Create resources: metal, oil, wood, food.
-1. Create buildings:
-    1. Mine
-    1. Armory
-    1. Mill
-    1. Monument
-1. Create player's off board resources.
-    1. Money.
-    1. Battle cards.
-1. Implement different move types.
+1. Create player mats.
+1. Implement different action types.
     1. Move
     1. Produce
     1. Trade
@@ -26,8 +12,19 @@ Things that need doing:
     1. Deploy
     1. Build
     1. Enlist
+1. Create resources: metal, oil, wood, food.
+1. Create buildings:
+    1. Mine
+    1. Armory
+    1. Mill
+    1. Monument
+1. Pawn movement.
+    1. ~~Allow them to be selected.~~
+    1. ~~Highlight tiles that the pawn can be moved to.~~
+    1. ~~Move the pawn.~~
+    1. Upgrade specific moves.
+    1. Faction specific moves.
 1. Setup the turn loop flow.
-1. Create player mats.
 1. Create faction mats.
 1. Implement enlist repeating + 1 time bonuses.
 1. Implement popularity track.
@@ -75,3 +72,6 @@ Things that are done:
     1. ~~Characters~~
     1. ~~Mechs~~
     1. ~~Workers~~
+1. ~~Create player's off board resources:~~
+    1. ~~Money
+    1. ~~Battle cards~~

@@ -2,7 +2,8 @@ import * as Territories from 'enums/territories';
 
 const colors = {
   territories: [],
-  movable: 0x3bd343
+  movable: 0x3bd343,
+  playerMat: 0xCFBAB0
 };
 colors.territories[Territories.FACTORY]  = 0x52246b;
 colors.territories[Territories.BASE]     = 0x032807;

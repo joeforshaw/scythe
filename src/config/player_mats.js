@@ -2,6 +2,8 @@ import * as Actions from 'enums/actions';
 import * as PlayerMats from 'enums/player_mats';
 
 const config = {
+  width: 0.4,
+  height: 0.2,
   initial: {}
 };
 
@@ -47,6 +49,7 @@ for (let i = 0; i < PlayerMats.all; i++) {
 // Bottom row actions
 config.initial[PlayerMats.INDUSTRIAL] = { actions: {} };
 config.initial[PlayerMats.INDUSTRIAL].actions[Actions.UPGRADE] = {
+  group: 0,
   cost: [
     { oil: 3, upgrades: 1 },
   ],
@@ -57,6 +60,7 @@ config.initial[PlayerMats.INDUSTRIAL].actions[Actions.UPGRADE] = {
   ]
 };
 config.initial[PlayerMats.INDUSTRIAL].actions[Actions.DEPLOY] = {
+  group: 1,
   cost: [
     { metal: 3, upgrades: 2 },
   ],
@@ -66,6 +70,7 @@ config.initial[PlayerMats.INDUSTRIAL].actions[Actions.DEPLOY] = {
   ]
 };
 config.initial[PlayerMats.INDUSTRIAL].actions[Actions.BUILD] = {
+  group: 2,
   cost: [
     { wood: 3, upgrades: 1 },
   ],
@@ -75,6 +80,7 @@ config.initial[PlayerMats.INDUSTRIAL].actions[Actions.BUILD] = {
   ]
 };
 config.initial[PlayerMats.INDUSTRIAL].actions[Actions.ENLIST] = {
+  group: 3,
   cost: [
     { food: 4, upgrades: 2 },
   ],
@@ -85,6 +91,7 @@ config.initial[PlayerMats.INDUSTRIAL].actions[Actions.ENLIST] = {
 
 config.initial[PlayerMats.ENGINEERING] = { actions: {} };
 config.initial[PlayerMats.ENGINEERING].actions[Actions.UPGRADE] = {
+  group: 0,
   cost: [
     { oil: 3, upgrades: 1 },
   ],
@@ -94,6 +101,7 @@ config.initial[PlayerMats.ENGINEERING].actions[Actions.UPGRADE] = {
   ]
 };
 config.initial[PlayerMats.ENGINEERING].actions[Actions.DEPLOY] = {
+  group: 1,
   cost: [
     { metal: 4, upgrades: 2 },
   ],
@@ -102,6 +110,7 @@ config.initial[PlayerMats.ENGINEERING].actions[Actions.DEPLOY] = {
   ]
 };
 config.initial[PlayerMats.ENGINEERING].actions[Actions.BUILD] = {
+  group: 2,
   cost: [
     { wood: 3, upgrades: 2 },
   ],
@@ -111,6 +120,7 @@ config.initial[PlayerMats.ENGINEERING].actions[Actions.BUILD] = {
   ]
 };
 config.initial[PlayerMats.ENGINEERING].actions[Actions.ENLIST] = {
+  group: 3,
   cost: [
     { food: 3, upgrades: 1 },
   ],
@@ -122,6 +132,7 @@ config.initial[PlayerMats.ENGINEERING].actions[Actions.ENLIST] = {
 
 config.initial[PlayerMats.MILITANT] = { actions: {} };
 config.initial[PlayerMats.MILITANT].actions[Actions.UPGRADE] = {
+  group: 0,
   cost: [
     { oil: 3, upgrades: 2 },
   ],
@@ -130,6 +141,7 @@ config.initial[PlayerMats.MILITANT].actions[Actions.UPGRADE] = {
   ]
 };
 config.initial[PlayerMats.MILITANT].actions[Actions.DEPLOY] = {
+  group: 1,
   cost: [
     { metal: 3, upgrades: 1 },
   ],
@@ -139,6 +151,7 @@ config.initial[PlayerMats.MILITANT].actions[Actions.DEPLOY] = {
   ]
 };
 config.initial[PlayerMats.MILITANT].actions[Actions.BUILD] = {
+  group: 2,
   cost: [
     { wood: 4, upgrades: 1 },
   ],
@@ -148,6 +161,7 @@ config.initial[PlayerMats.MILITANT].actions[Actions.BUILD] = {
   ]
 };
 config.initial[PlayerMats.MILITANT].actions[Actions.ENLIST] = {
+  group: 3,
   cost: [
     { food: 3, upgrades: 2 },
   ],
@@ -159,6 +173,7 @@ config.initial[PlayerMats.MILITANT].actions[Actions.ENLIST] = {
 
 config.initial[PlayerMats.PATRIOTIC] = { actions: {} };
 config.initial[PlayerMats.PATRIOTIC].actions[Actions.UPGRADE] = {
+  group: 0,
   cost: [
     { oil: 2 },
   ],
@@ -168,6 +183,7 @@ config.initial[PlayerMats.PATRIOTIC].actions[Actions.UPGRADE] = {
   ]
 };
 config.initial[PlayerMats.PATRIOTIC].actions[Actions.DEPLOY] = {
+  group: 1,
   cost: [
     { metal: 4, upgrades: 3 },
   ],
@@ -177,6 +193,7 @@ config.initial[PlayerMats.PATRIOTIC].actions[Actions.DEPLOY] = {
   ]
 };
 config.initial[PlayerMats.PATRIOTIC].actions[Actions.BUILD] = {
+  group: 2,
   cost: [
     { wood: 4, upgrades: 2 },
   ],
@@ -185,6 +202,7 @@ config.initial[PlayerMats.PATRIOTIC].actions[Actions.BUILD] = {
   ]
 };
 config.initial[PlayerMats.PATRIOTIC].actions[Actions.ENLIST] = {
+  group: 3,
   cost: [
     { food: 3, upgrades: 1 },
   ],
@@ -196,6 +214,7 @@ config.initial[PlayerMats.PATRIOTIC].actions[Actions.ENLIST] = {
 
 config.initial[PlayerMats.INNOVATIVE] = { actions: {} };
 config.initial[PlayerMats.INNOVATIVE].actions[Actions.UPGRADE] = {
+  group: 0,
   cost: [
     { oil: 3 },
   ],
@@ -205,6 +224,7 @@ config.initial[PlayerMats.INNOVATIVE].actions[Actions.UPGRADE] = {
   ]
 };
 config.initial[PlayerMats.INNOVATIVE].actions[Actions.DEPLOY] = {
+  group: 1,
   cost: [
     { metal: 3, upgrades: 1 },
   ],
@@ -214,6 +234,7 @@ config.initial[PlayerMats.INNOVATIVE].actions[Actions.DEPLOY] = {
   ]
 };
 config.initial[PlayerMats.INNOVATIVE].actions[Actions.BUILD] = {
+  group: 2,
   cost: [
     { wood: 4, upgrades: 3 },
   ],
@@ -223,6 +244,7 @@ config.initial[PlayerMats.INNOVATIVE].actions[Actions.BUILD] = {
   ]
 };
 config.initial[PlayerMats.INNOVATIVE].actions[Actions.ENLIST] = {
+  group: 3,
   cost: [
     { food: 3, upgrades: 2 },
   ],
@@ -233,6 +255,7 @@ config.initial[PlayerMats.INNOVATIVE].actions[Actions.ENLIST] = {
 
 config.initial[PlayerMats.MECHANICAL] = { actions: {} };
 config.initial[PlayerMats.MECHANICAL].actions[Actions.UPGRADE] = {
+  group: 0,
   cost: [
     { oil: 3, upgrades: 1 },
   ],
@@ -241,6 +264,7 @@ config.initial[PlayerMats.MECHANICAL].actions[Actions.UPGRADE] = {
   ]
 };
 config.initial[PlayerMats.MECHANICAL].actions[Actions.DEPLOY] = {
+  group: 1,
   cost: [
     { metal: 3, upgrades: 2 },
   ],
@@ -250,6 +274,7 @@ config.initial[PlayerMats.MECHANICAL].actions[Actions.DEPLOY] = {
   ]
 };
 config.initial[PlayerMats.MECHANICAL].actions[Actions.BUILD] = {
+  group: 2,
   cost: [
     { wood: 3, upgrades: 1 },
   ],
@@ -259,6 +284,7 @@ config.initial[PlayerMats.MECHANICAL].actions[Actions.BUILD] = {
   ]
 };
 config.initial[PlayerMats.MECHANICAL].actions[Actions.ENLIST] = {
+  group: 3,
   cost: [
     { food: 4, upgrades: 2 },
   ],
@@ -270,6 +296,7 @@ config.initial[PlayerMats.MECHANICAL].actions[Actions.ENLIST] = {
 
 config.initial[PlayerMats.AGRICULTURAL] = { actions: {} };
 config.initial[PlayerMats.AGRICULTURAL].actions[Actions.UPGRADE] = {
+  group: 0,
   cost: [
     { oil: 2 },
   ],
@@ -279,6 +306,7 @@ config.initial[PlayerMats.AGRICULTURAL].actions[Actions.UPGRADE] = {
   ]
 };
 config.initial[PlayerMats.AGRICULTURAL].actions[Actions.DEPLOY] = {
+  group: 1,
   cost: [
     { metal: 4, upgrades: 2 },
   ],
@@ -287,6 +315,7 @@ config.initial[PlayerMats.AGRICULTURAL].actions[Actions.DEPLOY] = {
   ]
 };
 config.initial[PlayerMats.AGRICULTURAL].actions[Actions.BUILD] = {
+  group: 2,
   cost: [
     { wood: 4, upgrades: 2 },
   ],
@@ -296,6 +325,7 @@ config.initial[PlayerMats.AGRICULTURAL].actions[Actions.BUILD] = {
   ]
 };
 config.initial[PlayerMats.AGRICULTURAL].actions[Actions.ENLIST] = {
+  group: 3,
   cost: [
     { food: 3, upgrades: 2 },
   ],

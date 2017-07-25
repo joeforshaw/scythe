@@ -1,10 +1,11 @@
 import Model from 'models/model';
 import { CREATED_PLAYER_MAT } from 'enums/topics';
+import PlayerMatRenderer from 'renderers/player_mat'
 
 export default class PlayerMat extends Model {
 
   constructor(state) {
-    super({ state: state });
+    super({ renderer: PlayerMatRenderer, state: state });
     PubSub.publish(CREATED_PLAYER_MAT, { player: state });
   }
 

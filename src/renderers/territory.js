@@ -33,8 +33,6 @@ export default class TerritoryRenderer extends Renderer {
     }
   }
 
-
-
   handleBackground(model, state) {
     this.background = this.addSprite(state, "territory");
     this.background.inputEnabled = true;
@@ -42,7 +40,7 @@ export default class TerritoryRenderer extends Renderer {
       model.onClicked();
     }, this);
     if (state.type === Territories.BASE) {
-      this.background.tint = colors.territories[Territories.BASE];      
+      this.background.tint = colors.territories[Territories.BASE];
     } else if (state.type === Territories.LAKE) {
       this.background.tint = colors.territories[Territories.LAKE];
     } else {
@@ -135,7 +133,7 @@ export default class TerritoryRenderer extends Renderer {
       case Factions.CRIMEA:  return 'C';
       case Factions.SAXONY:  return 'S';
       case Factions.POLANIA: return 'P';
-      case Factions.ALBION:  return 'A';    
+      case Factions.ALBION:  return 'A';
     }
   }
 
