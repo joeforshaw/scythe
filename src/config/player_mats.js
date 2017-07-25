@@ -2,8 +2,8 @@ import * as Actions from 'enums/actions';
 import * as PlayerMats from 'enums/player_mats';
 
 const config = {
-  width: 0.4,
-  height: 0.2,
+  width: 0.47,
+  height: 0.3,
   initial: {}
 };
 

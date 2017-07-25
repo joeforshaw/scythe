@@ -6,8 +6,8 @@ import StateContainer from 'utils/state_container';
 export default class Model {
 
   constructor(params) {
-    if (params.renderer) { this.initRender(params); }
     this.initState(params);
+    if (params.renderer) { this.initRender(params); }
     this.id = this.generateID(16);
   }
   

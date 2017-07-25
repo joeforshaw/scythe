@@ -32,7 +32,6 @@ function initializePlayersMats() {
     const initialState = playerMatsConfig.initial[PlayerMats.all[i]];
     const playerMat = new PlayerMat(initialState);
     playersMats.push(playerMat);
-    console.log(initialState);    
   }
   return modelArrayToObject(playersMats);
 }
