@@ -6,7 +6,8 @@ const colors = {
   playerMat: {
     background: 0x961909,
     actionGroup: 0xfff4d3,
-    action: 0xe0d4ac
+    action: 0xe0d4ac,
+    actionText: '#3d3d3d'
   }
 };
 colors.territories[Territories.FACTORY]  = 0x52246b;

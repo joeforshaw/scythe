@@ -1,0 +1,11 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: black;
+}
+
+@font-face {
+  font-family: 'League Gothic';
+  src: url('/assets/fonts/league-gothic-regular.woff') format('woff');
+  font-weight: normal;
+}

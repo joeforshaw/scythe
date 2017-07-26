@@ -1,9 +1,11 @@
 import scythe from 'scythe';
 import Renderer from 'renderers/renderer';
 import * as Factions from 'enums/factions';
+import * as Actions from 'enums/actions';
 import config from 'config/scythe';
 import playerMatConfig from 'config/player_mats';
 import colors from 'config/colors';
+import Copy from 'utils/copy';
 
 export default class PlayerMatRenderer extends Renderer {
 
@@ -29,6 +31,7 @@ export default class PlayerMatRenderer extends Renderer {
   initializeActionGroups() {
     this.actionGroups = [];
     this.actions = [];
+    this.actionText = [];
     const numberOfActionGroups = 4;
     const width = (this.width - ((numberOfActionGroups + 1) * this.paddingAmount)) / numberOfActionGroups;
     const height = this.height - (2 * this.paddingAmount);
@@ -56,6 +59,7 @@ export default class PlayerMatRenderer extends Renderer {
     this.actions[i][0].lineStyle(0, colors.playerMat.action, 0);
     this.actions[i][0].drawRect(x, 0, width, height);
     this.actions[i][0].endFill();
+    this.initializeActionText(i, true, Actions.MOVE);
 
     this.actions[i] = [];
     this.actions[i][1] = scythe.game.add.graphics(this.actionGroups[i].x + this.paddingAmount, this.actionGroups[i].y + this.paddingAmount);
@@ -63,6 +67,21 @@ export default class PlayerMatRenderer extends Renderer {
     this.actions[i][1].lineStyle(0, colors.playerMat.action, 0);
     this.actions[i][1].drawRect(x, bottomY, width, height);
     this.actions[i][1].endFill();
+    this.initializeActionText(i, false, Actions.MOVE);
+  }
+
+  initializeActionText(i, topRow, action) {
+    const actionsIndex = topRow ? 0 : 1;
+    const x = i * (this.actions[i][actionsIndex].x + (this.actions[i][actionsIndex].width / 2))
+    const y = this.actions[i][actionsIndex].y;
+    this.actionText[i] = scythe.game.add.text(x, y, Copy.forAction(action), {
+      font:            'Arial',
+      fontSize:        16,
+      textAlign:       'center',
+      fontWeight:      '100',
+      fill:            colors.playerMat.actionText
+    });
+    this.actionText[i].anchor.setTo(0.5, 0);
   }
 
   update(model) {
