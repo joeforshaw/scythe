@@ -11,21 +11,23 @@ export default class PlayerMatRenderer extends Renderer {
 
   constructor(model, state) {
     super(model, state);
-    this.width = playerMatConfig.width * config.width;
-    this.height = playerMatConfig.height * config.height;
-    this.paddingAmount = this.width * playerMatConfig.padding;
+    this.playerMatWidth = playerMatConfig.width * config.width;
+    this.playerMatHeight = playerMatConfig.height * config.height;
+    this.paddingAmount = this.playerMatWidth * playerMatConfig.padding;
+    this.group = scythe.game.add.group();
+    this.group.x = window.outerWidth - this.playerMatWidth;
+    this.group.y = 0;
     this.initializeBackground();
     this.initializeActionGroups();
   }
 
   initializeBackground() {
-    this.x = window.outerWidth - this.width;
-    this.y = 0;
     this.background = scythe.game.add.graphics(this.x, this.y);
     this.background.beginFill(colors.playerMat.background);
     this.background.lineStyle(0, colors.playerMat.background, 0);
-    this.background.drawRect(0, 0, this.width, this.height);
+    this.background.drawRect(0, 0, this.playerMatWidth, this.playerMatHeight);
     this.background.endFill();
+    this.group.add(this.background);
   }
 
   initializeActionGroups() {
@@ -33,55 +35,66 @@ export default class PlayerMatRenderer extends Renderer {
     this.actions = [];
     this.actionText = [];
     const numberOfActionGroups = 4;
-    const width = (this.width - ((numberOfActionGroups + 1) * this.paddingAmount)) / numberOfActionGroups;
-    const height = this.height - (2 * this.paddingAmount);
+    const width = (this.playerMatWidth - ((numberOfActionGroups + 1) * this.paddingAmount)) / numberOfActionGroups;
+    const height = this.playerMatHeight - (2 * this.paddingAmount);
     for (let i = 0; i < numberOfActionGroups; i++) {
-      const x = (this.paddingAmount + width) * i;
-      const y = this.paddingAmount;
-      this.actionGroups[i] = scythe.game.add.graphics(this.x + this.paddingAmount, this.y + this.paddingAmount);
-      this.actionGroups[i].beginFill(colors.playerMat.actionGroup);
-      this.actionGroups[i].lineStyle(0, colors.playerMat.actionGroup, 0);
-      this.actionGroups[i].drawRect(x, 0, width, height);
-      this.actionGroups[i].endFill();
-      this.initializeGroupActions(i);
+      this.actionGroups[i] = scythe.game.add.group();
+      this.actionGroups[i].x = this.paddingAmount + (this.paddingAmount + width) * i;
+      this.actionGroups[i].y = this.paddingAmount;
+      const graphics = scythe.game.add.graphics(this.x + this.paddingAmount, this.y + this.paddingAmount)
+      graphics.beginFill(colors.playerMat.actionGroup);
+      graphics.lineStyle(0, colors.playerMat.actionGroup, 0);
+      graphics.drawRect(0, 0, width, height);
+      graphics.endFill();
+      this.actionGroups[i].add(graphics);
+      this.group.add(this.actionGroups[i]);
+      this.initializeActionsForGroup(i);
     }
   }
 
-  initializeGroupActions(i) {
+  initializeActionsForGroup(i) {
     const width = this.actionGroups[i].width - (2 * this.paddingAmount);
     const height = (this.actionGroups[i].height - (2 * this.paddingAmount)) / 3;
-    const x = (this.paddingAmount + this.actionGroups[i].width) * i;
-    const bottomY = this.actionGroups[i].height - (2 *this.paddingAmount) - height;
 
     this.actions[i] = [];
-    this.actions[i][0] = scythe.game.add.graphics(this.actionGroups[i].x + this.paddingAmount, this.actionGroups[i].y + this.paddingAmount);
-    this.actions[i][0].beginFill(colors.playerMat.action);
-    this.actions[i][0].lineStyle(0, colors.playerMat.action, 0);
-    this.actions[i][0].drawRect(x, 0, width, height);
-    this.actions[i][0].endFill();
-    this.initializeActionText(i, true, Actions.MOVE);
+    this.actions[i][0] = scythe.game.add.group();
+    const topActionGraphics = scythe.game.add.graphics(this.paddingAmount, this.paddingAmount);
+    topActionGraphics.beginFill(colors.playerMat.action);
+    topActionGraphics.lineStyle(0, colors.playerMat.action, 0);
+    topActionGraphics.drawRect(0, 0, width, height);
+    topActionGraphics.endFill();
+    this.actions[i][0].add(topActionGraphics);
+    this.actionGroups[i].add(this.actions[i][0]);
+    this.initializeActionText(i, Actions.MOVE, true);
 
-    this.actions[i] = [];
-    this.actions[i][1] = scythe.game.add.graphics(this.actionGroups[i].x + this.paddingAmount, this.actionGroups[i].y + this.paddingAmount);
-    this.actions[i][1].beginFill(colors.playerMat.action);
-    this.actions[i][1].lineStyle(0, colors.playerMat.action, 0);
-    this.actions[i][1].drawRect(x, bottomY, width, height);
-    this.actions[i][1].endFill();
-    this.initializeActionText(i, false, Actions.MOVE);
+    this.actions[i][1] = scythe.game.add.group();
+    this.actions[i][1].y = this.actionGroups[i].height - (2 * this.paddingAmount) - height;
+    const bottomActionGraphics = scythe.game.add.graphics(this.paddingAmount, this.paddingAmount);
+    bottomActionGraphics.beginFill(colors.playerMat.action);
+    bottomActionGraphics.lineStyle(0, colors.playerMat.action, 0);
+    bottomActionGraphics.drawRect(0, 0, width, height);
+    bottomActionGraphics.endFill();
+    this.actions[i][1].add(bottomActionGraphics);
+    this.actionGroups[i].add(this.actions[i][1]);
+    this.initializeActionText(i, Actions.MOVE, false);
   }
 
-  initializeActionText(i, topRow, action) {
+  initializeActionText(i, action, topRow) {
+    this.actionText[i] = [];
     const actionsIndex = topRow ? 0 : 1;
-    const x = i * (this.actions[i][actionsIndex].x + (this.actions[i][actionsIndex].width / 2))
-    const y = this.actions[i][actionsIndex].y;
-    this.actionText[i] = scythe.game.add.text(x, y, Copy.forAction(action), {
-      font:            'Arial',
-      fontSize:        16,
-      textAlign:       'center',
-      fontWeight:      '100',
-      fill:            colors.playerMat.actionText
+    this.actionText[i][actionsIndex] = scythe.game.add.group();
+    const x = this.actionGroups[i].width / 2;
+    const copy = Copy.forAction(action);
+    const text = scythe.game.add.text(x, this.paddingAmount + 5, copy, {
+      font:       'League Gothic',
+      fontSize:   14,
+      textAlign:  'center',
+      fontWeight: 'normal',
+      fill:       colors.playerMat.actionText
     });
-    this.actionText[i].anchor.setTo(0.5, 0);
+    text.anchor.setTo(0.5, 0);
+    this.actionText[i][actionsIndex].add(text);
+    this.actions[i][actionsIndex].add(this.actionText[i][actionsIndex]);
   }
 
   update(model) {
