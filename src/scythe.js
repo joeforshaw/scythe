@@ -8,17 +8,18 @@ import Initializer from 'initializer';
 class Scythe {
 
   constructor() {
-    this.game = new Phaser.Game(
-      "100%", // config.width,
-      "100%", // config.height,
-      config.renderMode,
-      config.containerID,
-      {
+    this.game = new Phaser.Game({
+      width: "100%", // config.width,
+      height: "100%", // config.height,
+      renderer: config.renderMode,
+      parent: config.containerID,
+      resolution: 2,
+      state: {
         preload: this.preload,
         create: this.create,
         update: this.update
       }
-    );
+    });
   }
 
   preload() {

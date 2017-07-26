@@ -9,3 +9,10 @@ html, body {
   src: url('/assets/fonts/league-gothic-regular.woff') format('woff');
   font-weight: normal;
 }
+
+@font-face {
+  font-family: 'Superclarendon';
+  src: url('/assets/fonts/superclarendon-regular.woff') format('woff'),
+    url('/assets/fonts/superclarendon-regular.ttf') format('truetype');
+  font-weight: normal;
+}

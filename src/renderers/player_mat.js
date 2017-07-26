@@ -11,9 +11,9 @@ export default class PlayerMatRenderer extends Renderer {
 
   constructor(model, state) {
     super(model, state);
-    this.playerMatWidth = playerMatConfig.width * config.width;
-    this.playerMatHeight = playerMatConfig.height * config.height;
-    this.paddingAmount = this.playerMatWidth * playerMatConfig.padding;
+    this.playerMatWidth = Math.round(playerMatConfig.width * config.width);
+    this.playerMatHeight = Math.round(playerMatConfig.height * config.height);
+    this.paddingAmount = Math.round(this.playerMatWidth * playerMatConfig.padding);
     this.group = scythe.game.add.group();
     this.group.x = window.outerWidth - this.playerMatWidth;
     this.group.y = 0;
@@ -35,8 +35,8 @@ export default class PlayerMatRenderer extends Renderer {
     this.actions = [];
     this.actionText = [];
     const numberOfActionGroups = 4;
-    const width = (this.playerMatWidth - ((numberOfActionGroups + 1) * this.paddingAmount)) / numberOfActionGroups;
-    const height = this.playerMatHeight - (2 * this.paddingAmount);
+    const width = Math.round((this.playerMatWidth - ((numberOfActionGroups + 1) * this.paddingAmount)) / numberOfActionGroups);
+    const height = Math.round(this.playerMatHeight - (2 * this.paddingAmount));
     for (let i = 0; i < numberOfActionGroups; i++) {
       this.actionGroups[i] = scythe.game.add.group();
       this.actionGroups[i].x = this.paddingAmount + (this.paddingAmount + width) * i;
@@ -68,7 +68,7 @@ export default class PlayerMatRenderer extends Renderer {
     this.initializeActionText(i, Actions.MOVE, true);
 
     this.actions[i][1] = scythe.game.add.group();
-    this.actions[i][1].y = this.actionGroups[i].height - (2 * this.paddingAmount) - height;
+    this.actions[i][1].y = Math.round(this.actionGroups[i].height - (2 * this.paddingAmount) - height);
     const bottomActionGraphics = scythe.game.add.graphics(this.paddingAmount, this.paddingAmount);
     bottomActionGraphics.beginFill(colors.playerMat.action);
     bottomActionGraphics.lineStyle(0, colors.playerMat.action, 0);
@@ -83,10 +83,10 @@ export default class PlayerMatRenderer extends Renderer {
     this.actionText[i] = [];
     const actionsIndex = topRow ? 0 : 1;
     this.actionText[i][actionsIndex] = scythe.game.add.group();
-    const x = this.actionGroups[i].width / 2;
+    const x = Math.round(this.actionGroups[i].width / 2);
     const copy = Copy.forAction(action);
     const text = scythe.game.add.text(x, this.paddingAmount + 5, copy, {
-      font:       'League Gothic',
+      font:       'Superclarendon',
       fontSize:   14,
       textAlign:  'center',
       fontWeight: 'normal',

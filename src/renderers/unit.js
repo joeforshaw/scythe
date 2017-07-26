@@ -18,8 +18,9 @@ export default class UnitRenderer extends Renderer {
   update(model) {
     if (!this.unit) { return; }
     const state = model.state.get();
-    this.unit.x = state.x;
-    this.unit.y = state.y;
+    this.sprites.x = state.x;
+    this.sprites.y = state.y;
+    console.log(state);
 
     if (this.selectedSprite) { this.positionSelect(); }
 
@@ -34,6 +35,8 @@ export default class UnitRenderer extends Renderer {
     const image = this.imageName(Factions.keys[state.faction]);
     this.unit = this.addSprite(state, image);
     this.unit.inputEnabled = true;
+    this.unit.x = 0;
+    this.unit.y = 0;
   }
 
   imageName(key) {
@@ -63,7 +66,10 @@ export default class UnitRenderer extends Renderer {
   positionSelect() {
     this.selectedSprite.x = this.unit.x;
     this.selectedSprite.y = this.unit.y;
-    const pos = this.positionForCommonCentre(this.selectedSprite, this.unit);
+    const pos = {
+      x: -((this.selectedSprite.width - this.unit.width) / 4),
+      y: -((this.selectedSprite.height - this.unit.width) / 4)
+    };
     this.selectedSprite.x = pos.x;
     this.selectedSprite.y = pos.y;
   }
