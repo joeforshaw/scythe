@@ -20,7 +20,6 @@ export default class UnitRenderer extends Renderer {
     const state = model.state.get();
     this.sprites.x = state.x;
     this.sprites.y = state.y;
-    console.log(state);
 
     if (this.selectedSprite) { this.positionSelect(); }
 

@@ -7,6 +7,7 @@ const colors = {
     background: 0x961909,
     actionGroup: 0xfff4d3,
     action: 0xe0d4ac,
+    title: '#eaeaea',
     actionText: '#3d3d3d'
   }
 };

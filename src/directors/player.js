@@ -30,6 +30,7 @@ function initializePlayersMats() {
   const playersMats = [];
   for (let i = 0; i < PlayerMats.all.length; i++) {
     const initialState = playerMatsConfig.initial[PlayerMats.all[i]];
+    initialState.playerMat = PlayerMats.all[i];
     const playerMat = new PlayerMat(initialState);
     playersMats.push(playerMat);
   }

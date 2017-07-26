@@ -18,7 +18,7 @@ export default class Sprites {
         const url = this.baseUrl + spriteList[key];
         const assetKey = keys.join('-');
         console.debug('Loading asset ' + assetKey + ': ' + url);
-        scythe.game.load.image(assetKey, url); 
+        scythe.game.load.image(assetKey, url);
       }
     }
   }
