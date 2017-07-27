@@ -23,6 +23,10 @@ export default class UnitDirector {
     return state.get();
   }
 
+  static workersFor(faction) {
+    return state.get().units[faction].workers;
+  }
+
 }
 
 function initializeUnits() {

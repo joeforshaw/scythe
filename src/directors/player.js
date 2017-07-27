@@ -9,7 +9,6 @@ import playerConfig from 'config/player';
 import playerMatsConfig from 'config/player_mats';
 
 const state = new StateContainer({
-  currentPlayer: {},
   playerMats: {},
   players: {}
 });
@@ -19,7 +18,6 @@ export default class PlayerDirector {
   static init() {
     state.set({ playerMats: initializePlayersMats() });
     state.set({ players: initializePlayers() });
-    state.set({ currentPlayer: initializeCurrentPlayer() });
   }
 
   static state() { return state.get(); }
@@ -50,8 +48,4 @@ function initializePlayers() {
     players.push(new Player(playerState));
   }
   return modelArrayToObject(players);
-}
-
-function initializeCurrentPlayer() {
-  return {};
 }
