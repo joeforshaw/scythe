@@ -10,12 +10,14 @@ import Territory from 'models/territory';
 import StateContainer from 'utils/state_container';
 import {
   MOVED_UNIT,
-  SELECTED_MOVEABLE_TERRITORY
+  SELECT_TERRITORY,
+  SELECT_TERRITORY_SELECTABLE,
+  SELECT_TERRITORY_SELECTED
 } from 'enums/topics';
 
 const state = new StateContainer({
   territories: [],
-  highlightedTerritories: {},
+  selectableTerritories: {},
   selectedUnits: {}
 });
 
@@ -24,25 +26,15 @@ export default class TerritoryDirector {
   static init() {
     const self = this;
     state.set({ territories: initializeTerritories()});
-    
+
     PubSub.subscribe(Topics.MOVE_UNIT, function(msg, data) {
       moveUnit(data.unit, data.to);
     });
 
-    PubSub.subscribe(Topics.SELECTED_MOVEABLE_TERRITORY, function(msg, data) {
-      let unit;
-      const selectedUnits = state.get().selectedUnits;
-      for (let id in selectedUnits) {
-        unit = selectedUnits[id];
-        moveUnit(selectedUnits[id], data.to);
-      }
-      updateReachableTerritories(unit);
-    });
-
-    PubSub.subscribe(Topics.SELECTED_UNIT, function(msg, data) {
-      updateReachableTerritories(data.unit, data.alreadySelected);
-      data.unit.state.set({ selected: !data.alreadySelected });      
-    });
+    // PubSub.subscribe(Topics.SELECTED_UNIT, function(msg, data) {
+    //   updateReachableTerritories(data.unit, data.alreadySelected);
+    //   data.unit.state.set({ selected: !data.alreadySelected });
+    // });
   }
 
   static state() {
@@ -88,7 +80,7 @@ function moveUnit(unit, to) {
     delete fromState.units[unit.id];
     territories[fromState.row][fromState.column].state.set({ units: fromState.units });
   }
-  
+
   // Set unit's territory
   unit.state.set({ territory: territories[to.row][to.column] });
 
@@ -96,7 +88,7 @@ function moveUnit(unit, to) {
   const territoryUnits = territories[to.row][to.column].state.get().units;
   territoryUnits[unit.id] = unit;
   territories[to.row][to.column].state.set({ units: territoryUnits });
-  
+
   // Position unit on territory
   const territoryCenter = territories[to.row][to.column].center();
   const unitState = unit.state.get();
@@ -135,16 +127,16 @@ function numberOfMoves(unit) {
 function updateReachableTerritories(unit, alreadySelected) {
   let movableTerritories = {};
   const territoryState = state.get();
-  const highlightedTerritories = territoryState.highlightedTerritories;
+  const selectableTerritories = territoryState.selectableTerritories;
   const selectedUnits = territoryState.selectedUnits;
   const unitState = unit.state.get();
 
   // Reset any selected territories
-  for (let key in highlightedTerritories) {
-    highlightedTerritories[key].state.set({ movable: false });
+  for (let key in selectableTerritories) {
+    selectableTerritories[key].state.set({ selectable: false });
   }
 
-  if (alreadySelected) {    
+  if (alreadySelected) {
     delete selectedUnits[unit.id];
   } else {
     selectedUnits[unit.id] = unit;
@@ -155,13 +147,13 @@ function updateReachableTerritories(unit, alreadySelected) {
 
     // Set selected territories
     for (let key in movableTerritories) {
-      movableTerritories[key].state.set({ movable: true });
+      movableTerritories[key].state.set({ selectable: true });
     }
   }
 
   state.set({
     selectedUnits: selectedUnits,
-    highlightedTerritories: movableTerritories
+    selectableTerritories: movableTerritories
   });
 }
 
@@ -179,6 +171,5 @@ function getAdjacentPositions(territory) {
       if (!isTerritory) { adjacents.push(tunnel); }
     }
   }
-
   return adjacents;
 }

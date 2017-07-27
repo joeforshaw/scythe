@@ -23,8 +23,9 @@ export default class UnitDirector {
     return state.get();
   }
 
-  static workersFor(faction) {
-    return state.get().units[faction].workers;
+  static workerTerritoriesFor(faction) {
+    const workers = state.get().units[faction].workers;
+    return _.map(workers, function(w) { return w.state.get().territory });
   }
 
 }

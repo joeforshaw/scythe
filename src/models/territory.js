@@ -2,23 +2,36 @@ import scythe from 'scythe';
 import Model from 'models/model';
 import TerritoryRenderer from 'renderers/territory';
 import config from 'config/territory';
-import { SELECTED_MOVEABLE_TERRITORY } from 'enums/topics';
 import PubSub from 'pubsub-js';
 import * as TerritorySides from 'enums/territory_sides';
+import {
+  SELECT_TERRITORY,
+  SELECT_TERRITORY_SELECTABLE,
+  SELECT_TERRITORY_SELECTED,
+  DESELECT_TERRITORY_ALL
+} from 'enums/topics';
 
 export default class Territory extends Model {
-  
+
   constructor(state) {
-    state.movable = false;
+    state.selectable = false;
     state.units = {};
     super({ renderer: TerritoryRenderer, state: state });
+    const self = this;
+    PubSub.subscribe(DESELECT_TERRITORY_ALL, function(msg, data) {
+      self.deselect();
+    })
   }
 
   onClicked() {
-    const state = this.state.get();
-    if (state.movable) {
-      PubSub.publish(SELECTED_MOVEABLE_TERRITORY, { unit: state.unit, to: this.coordinates() });
-    }
+    let state = this.state.get();
+    let topic = SELECT_TERRITORY;
+    if (state.selectable) { topic = SELECT_TERRITORY_SELECTABLE; }
+    if (state.selected)   { topic = SELECT_TERRITORY_SELECTED; }
+    PubSub.publish(topic, {
+      unit: state.unit,
+      position: this.coordinates()
+    });
   }
 
   coordinates() {
@@ -36,7 +49,7 @@ export default class Territory extends Model {
         getAdjacentItem(TerritorySides.BOTTOM_RIGHT, state.row + 1, state.column + 1),
         getAdjacentItem(TerritorySides.BOTTOM_LEFT,  state.row + 1, state.column    ),
         getAdjacentItem(TerritorySides.LEFT,         state.row,     state.column - 1),
-        getAdjacentItem(TerritorySides.TOP_LEFT,     state.row - 1, state.column    ) 
+        getAdjacentItem(TerritorySides.TOP_LEFT,     state.row - 1, state.column    )
       ];
     } else {
       positions = [
@@ -45,10 +58,14 @@ export default class Territory extends Model {
         getAdjacentItem(TerritorySides.BOTTOM_RIGHT, state.row + 1, state.column    ),
         getAdjacentItem(TerritorySides.BOTTOM_LEFT,  state.row + 1, state.column - 1),
         getAdjacentItem(TerritorySides.LEFT,         state.row,     state.column - 1),
-        getAdjacentItem(TerritorySides.TOP_LEFT,     state.row - 1, state.column - 1) 
+        getAdjacentItem(TerritorySides.TOP_LEFT,     state.row - 1, state.column - 1)
       ]
     }
     return positions.filter(function(p) { return p; })
+  }
+
+  deselect() {
+    this.state.set({ selectable: false, selected: false });
   }
 
 }

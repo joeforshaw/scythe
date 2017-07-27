@@ -26,8 +26,10 @@ export default class TerritoryRenderer extends Renderer {
 
   update(model) {
     const state = model.state.get();
-    if (state.movable) {
-      this.background.tint = colors.movable;
+    if (state.selected) {
+      this.background.tint = colors.selected;
+    } else if (state.selectable) {
+      this.background.tint = colors.selectable;
     } else {
       this.background.tint = this.originalTint;
     }

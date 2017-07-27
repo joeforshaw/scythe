@@ -3,6 +3,7 @@ import StateContainer from 'utils/state_container';
 import PlayerDirector from 'directors/player';
 import UnitDirector from 'directors/unit';
 import {
+  DESELECT_TERRITORY_ALL,
   SELECTED_ACTION_MOVE,
   SELECTED_ACTION_PRODUCE,
   SELECTED_ACTION_TRADE,
@@ -14,7 +15,7 @@ import {
 } from 'enums/topics';
 
 const state = new StateContainer({
-  
+
 });
 
 export default class ActionDirector {
@@ -43,14 +44,33 @@ function initializePlayerToStart() {
 }
 
 function subscribeToSelectedActions() {
-  PubSub.subscribe(SELECTED_ACTION_MOVE,    function(msg, data) { onMove(data);    });
-  PubSub.subscribe(SELECTED_ACTION_PRODUCE, function(msg, data) { onProduce(data); });
-  PubSub.subscribe(SELECTED_ACTION_TRADE,   function(msg, data) { onTrade(data);   });
-  PubSub.subscribe(SELECTED_ACTION_BOLSTER, function(msg, data) { onBolster(data); });
-  PubSub.subscribe(SELECTED_ACTION_UPGRADE, function(msg, data) { onUpgrade(data); });
-  PubSub.subscribe(SELECTED_ACTION_DEPLOY,  function(msg, data) { onDeploy(data);  });
-  PubSub.subscribe(SELECTED_ACTION_BUILD,   function(msg, data) { onBuild(data);   });
-  PubSub.subscribe(SELECTED_ACTION_ENLIST,  function(msg, data) { onEnlist(data);  });
+  _.each([
+    { topic: SELECTED_ACTION_MOVE,    action: onMove    },
+    { topic: SELECTED_ACTION_PRODUCE, action: onProduce },
+    { topic: SELECTED_ACTION_TRADE,   action: onTrade   },
+    { topic: SELECTED_ACTION_BOLSTER, action: onBolster },
+    { topic: SELECTED_ACTION_UPGRADE, action: onUpgrade },
+    { topic: SELECTED_ACTION_DEPLOY,  action: onDeploy  },
+    { topic: SELECTED_ACTION_BUILD,   action: onBuild   },
+    { topic: SELECTED_ACTION_ENLIST,  action: onEnlist  }
+  ], function(o) {
+    PubSub.subscribe(o.topic, function(msg, data) {
+      beforeAction(o.action, data);
+    });
+  });
+
+  PubSub.subscribe(SELECT_TERRITORY_SELECTABLE, function(msg, data) {
+    
+  });
+
+  PubSub.subscribe(SELECT_TERRITORY_SELECTED, function(msg, data) {
+    
+  });
+}
+
+function beforeAction(actionFunction, data) {
+  PubSub.publishSync(DESELECT_TERRITORY_ALL, {});
+  actionFunction(data);
 }
 
 function onMove(data) {
@@ -60,7 +80,8 @@ function onMove(data) {
 function onProduce(data) {
   console.log("Produce");
   const playerState = state.get().currentPlayer.state.get();
-  const workers = UnitDirector.workersFor(playerState.faction);
+  const territories = UnitDirector.workerTerritoriesFor(playerState.faction);
+  _.each(territories, function(t) { t.state.set({ selectable: true }); });
 }
 
 function onTrade(data) {

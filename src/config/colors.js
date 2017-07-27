@@ -2,7 +2,8 @@ import * as Territories from 'enums/territories';
 
 const colors = {
   territories: [],
-  movable: 0x3bd343,
+  selectable: 0x3bd343,
+  selected: 0x9ffca3,
   playerMat: {
     background: 0x961909,
     actionGroup: 0xfff4d3,
