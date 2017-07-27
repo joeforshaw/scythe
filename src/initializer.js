@@ -4,6 +4,7 @@ import PubSub from 'pubsub-js';
 import PlayerDirector from 'directors/player';
 import TerritoryDirector from 'directors/territory';
 import UnitDirector from 'directors/unit';
+import ActionDirector from 'directors/action';
 
 export default class Initializer {
 
@@ -11,6 +12,7 @@ export default class Initializer {
     PlayerDirector.init();
     TerritoryDirector.init();
     UnitDirector.init();
+    ActionDirector.init();
   }
 
 }

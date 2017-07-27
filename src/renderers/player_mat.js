@@ -11,6 +11,7 @@ export default class PlayerMatRenderer extends Renderer {
 
   constructor(model, state) {
     super(model, state);
+    this.onActionClicked = function(actionData) { model.onActionClicked(actionData); }
     this.numberOfActionGroups = 4;
     this.playerMatNameOffset = 30;
     this.playerMatWidth = playerMatConfig.width * config.width;
@@ -18,7 +19,6 @@ export default class PlayerMatRenderer extends Renderer {
     this.paddingAmount = Math.round(this.playerMatWidth * playerMatConfig.padding);
     this.actionGroupWidth = (this.playerMatWidth - ((this.numberOfActionGroups + 1) * this.paddingAmount)) / this.numberOfActionGroups;
     this.actionWidth = this.actionGroupWidth - (2 * this.paddingAmount);
-
     this.group = scythe.game.add.group();
     this.group.x = window.outerWidth - this.playerMatWidth;
     this.group.y = 0;
@@ -93,6 +93,11 @@ export default class PlayerMatRenderer extends Renderer {
     graphics.lineStyle(0, colors.playerMat.action, 0);
     graphics.drawRect(0, 0, this.actionWidth, height);
     graphics.endFill();
+    graphics.inputEnabled = true;
+    graphics.events.onInputDown.add(function () {
+      this.onActionClicked(actionData);
+    }, this);
+
     this.actions[i][actionsIndex].add(graphics);
     this.actionGroups[i].add(this.actions[i][actionsIndex]);
     this.initializeActionText(i, actionData.action, topRow);
