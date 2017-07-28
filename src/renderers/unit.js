@@ -9,8 +9,8 @@ export default class UnitRenderer extends Renderer {
     super(model, state);
     this.unitType = state.unitType;
     this.addUnit(state);
-    this.sprites.inputEnableChildren = true;
-    this.sprites.onChildInputDown.add(function(sprite) {
+    this.group.inputEnableChildren = true;
+    this.group.onChildInputDown.add(function(sprite) {
       model.onClicked();
     }, this);
   }
@@ -18,8 +18,8 @@ export default class UnitRenderer extends Renderer {
   update(model) {
     if (!this.unit) { return; }
     const state = model.state.get();
-    this.sprites.x = state.x;
-    this.sprites.y = state.y;
+    this.group.x = state.x;
+    this.group.y = state.y;
 
     if (this.selectedSprite) { this.positionSelect(); }
 
@@ -54,7 +54,7 @@ export default class UnitRenderer extends Renderer {
     const selectedImage = this.imageName('selected')
     this.selectedSprite = this.addSprite({ x: this.unit.x, y: this.unit.y }, selectedImage);
     this.positionSelect();
-    this.sprites.sendToBack(this.selectedSprite);
+    this.group.sendToBack(this.selectedSprite);
   }
 
   removeSelect() {

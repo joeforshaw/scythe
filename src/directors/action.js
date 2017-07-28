@@ -4,6 +4,8 @@ import PlayerDirector from 'directors/player';
 import UnitDirector from 'directors/unit';
 import {
   DESELECT_TERRITORY_ALL,
+  SELECT_TERRITORY_SELECTABLE,
+  SELECT_TERRITORY_SELECTED,
   SELECTED_ACTION_MOVE,
   SELECTED_ACTION_PRODUCE,
   SELECTED_ACTION_TRADE,
@@ -78,10 +80,8 @@ function onMove(data) {
 }
 
 function onProduce(data) {
+  setWorkerTerritoriesSelectable();
   console.log("Produce");
-  const playerState = state.get().currentPlayer.state.get();
-  const territories = UnitDirector.workerTerritoriesFor(playerState.faction);
-  _.each(territories, function(t) { t.state.set({ selectable: true }); });
 }
 
 function onTrade(data) {
@@ -106,4 +106,10 @@ function onBuild(data) {
 
 function onEnlist(data) {
   console.log("Enlist");
+}
+
+function setWorkerTerritoriesSelectable() {
+  const playerState = state.get().currentPlayer.state.get();
+  const territories = UnitDirector.workerTerritoriesFor(playerState.faction);
+  _.each(territories, function(t) { t.state.set({ selectable: true }); });
 }
