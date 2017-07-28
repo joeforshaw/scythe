@@ -2,6 +2,11 @@
 
 Things that need doing:
 
+1. Create resources:
+    1. Metal
+    1. Oil
+    1. Food
+    1. Wood
 1. Create player mats.
 1. Implement different action types.
     1. Move
@@ -12,7 +17,6 @@ Things that need doing:
     1. Deploy
     1. Build
     1. Enlist
-1. Create resources: metal, oil, wood, food.
 1. Create buildings:
     1. Mine
     1. Armory

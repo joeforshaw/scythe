@@ -16,19 +16,25 @@ import {
   SELECTED_ACTION_ENLIST
 } from 'enums/topics';
 
-const state = new StateContainer({
-
-});
+const state = new StateContainer({});
 
 export default class ActionDirector {
 
   static init() {
     initializePlayerToStart();
     subscribeToSelectedActions();
+    resetSteps();
   }
 
   static state() { return state.get(); }
 
+}
+
+function resetSteps() {
+  state.set({
+    onSelectableTerritoryClick: function(data) { },
+    onSelectedTerritoryClick:   function(data) { }
+  });
 }
 
 function initializePlayerToStart() {
@@ -47,30 +53,31 @@ function initializePlayerToStart() {
 
 function subscribeToSelectedActions() {
   _.each([
-    { topic: SELECTED_ACTION_MOVE,    action: onMove    },
-    { topic: SELECTED_ACTION_PRODUCE, action: onProduce },
-    { topic: SELECTED_ACTION_TRADE,   action: onTrade   },
-    { topic: SELECTED_ACTION_BOLSTER, action: onBolster },
-    { topic: SELECTED_ACTION_UPGRADE, action: onUpgrade },
-    { topic: SELECTED_ACTION_DEPLOY,  action: onDeploy  },
-    { topic: SELECTED_ACTION_BUILD,   action: onBuild   },
-    { topic: SELECTED_ACTION_ENLIST,  action: onEnlist  }
+    { topic: SELECTED_ACTION_MOVE,    handler: onMove    },
+    { topic: SELECTED_ACTION_PRODUCE, handler: onProduce },
+    { topic: SELECTED_ACTION_TRADE,   handler: onTrade   },
+    { topic: SELECTED_ACTION_BOLSTER, handler: onBolster },
+    { topic: SELECTED_ACTION_UPGRADE, handler: onUpgrade },
+    { topic: SELECTED_ACTION_DEPLOY,  handler: onDeploy  },
+    { topic: SELECTED_ACTION_BUILD,   handler: onBuild   },
+    { topic: SELECTED_ACTION_ENLIST,  handler: onEnlist  }
   ], function(o) {
     PubSub.subscribe(o.topic, function(msg, data) {
-      beforeAction(o.action, data);
+      beforeAction(o.handler, data);
     });
   });
 
   PubSub.subscribe(SELECT_TERRITORY_SELECTABLE, function(msg, data) {
-    
+    state.get().onSelectableTerritoryClick(data);
   });
 
   PubSub.subscribe(SELECT_TERRITORY_SELECTED, function(msg, data) {
-    
+    state.get().onSelectedTerritoryClick(data);
   });
 }
 
 function beforeAction(actionFunction, data) {
+  resetSteps();
   PubSub.publishSync(DESELECT_TERRITORY_ALL, {});
   actionFunction(data);
 }
@@ -80,8 +87,12 @@ function onMove(data) {
 }
 
 function onProduce(data) {
-  setWorkerTerritoriesSelectable();
   console.log("Produce");
+  setWorkerTerritoriesSelectable();
+  const onSelectableTerritoryClick = function(data) {
+    console.log(data);
+  };
+  state.set({ onSelectableTerritoryClick: onSelectableTerritoryClick });
 }
 
 function onTrade(data) {
