@@ -2,52 +2,40 @@ import Model from 'models/model';
 import PlayerMatRenderer from 'renderers/player_mat';
 import * as Actions from 'enums/actions';
 import Copy from 'utils/copy';
-import {
-  CREATED_PLAYER_MAT,
-  SELECTED_ACTION_GROUP,
-  SELECTED_ACTION_MOVE,
-  SELECTED_ACTION_PRODUCE,
-  SELECTED_ACTION_TRADE,
-  SELECTED_ACTION_BOLSTER,
-  SELECTED_ACTION_UPGRADE,
-  SELECTED_ACTION_DEPLOY,
-  SELECTED_ACTION_BUILD,
-  SELECTED_ACTION_ENLIST
-} from 'enums/topics';
+import { ACTIVITY } from 'enums/topics';
+import ChooseBolsterActivity from 'activities/bolster/choose_bolster';
+import ChooseBuildActivity from 'activities/build/choose_build';
+import ChooseDeployActivity from 'activities/deploy/choose_deploy';
+import ChooseEnlistActivity from 'activities/enlist/choose_enlist';
+import ChooseMoveActivity from 'activities/move/choose_move';
+import ChooseProduceActivity from 'activities/produce/choose_produce';
+import ChooseTradeActivity from 'activities/trade/choose_trade';
+import ChooseUpgradeActivity from 'activities/upgrade/choose_upgrade';
 
 export default class PlayerMat extends Model {
 
   constructor(state) {
     super({ renderer: PlayerMatRenderer, state: state });
-    PubSub.publish(CREATED_PLAYER_MAT, { player: state });
   }
 
   onActionGroupClicked(group) {
-    PubSub.publish(SELECTED_ACTION_GROUP, {
-      playerMat: this,
-      group:     group
-    });
   }
 
   onActionClicked(actionData) {
-    const topic = actionToSelectedTopic(actionData.action);
-    PubSub.publish(topic, {
-      playerMat:  this,
-      actionData: actionData
-    });
+    PubSub.publish(ACTIVITY, actionToActivity(actionData.action));
   }
 
 }
 
-function actionToSelectedTopic(action) {
+function actionToActivity(action) {
   switch (action) {
-    case Actions.MOVE:    return SELECTED_ACTION_MOVE;
-    case Actions.PRODUCE: return SELECTED_ACTION_PRODUCE;
-    case Actions.TRADE:   return SELECTED_ACTION_TRADE;
-    case Actions.BOLSTER: return SELECTED_ACTION_BOLSTER;
-    case Actions.UPGRADE: return SELECTED_ACTION_UPGRADE;
-    case Actions.DEPLOY:  return SELECTED_ACTION_DEPLOY;
-    case Actions.BUILD:   return SELECTED_ACTION_BUILD;
-    case Actions.ENLIST:  return SELECTED_ACTION_ENLIST;
+    case Actions.MOVE:    return new ChooseMoveActivity();
+    case Actions.PRODUCE: return new ChooseProduceActivity();
+    case Actions.TRADE:   return new ChooseTradeActivity();
+    case Actions.BOLSTER: return new ChooseBolsterActivity();
+    case Actions.UPGRADE: return new ChooseUpgradeActivity();
+    case Actions.DEPLOY:  return new ChooseDeployActivity();
+    case Actions.BUILD:   return new ChooseBuildActivity();
+    case Actions.ENLIST:  return new ChooseEnlistActivity();
   }
 }

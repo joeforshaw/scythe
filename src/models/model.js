@@ -1,7 +1,7 @@
 import scythe from 'scythe';
 import PubSub from 'pubsub-js';
 import * as Topics from 'enums/topics';
-import StateContainer from 'utils/state_container';
+import StateStore from 'utils/state_store';
 
 export default class Model {
 
@@ -22,7 +22,7 @@ export default class Model {
 
   initState(initialState) {
     const self = this;
-    self.state = new StateContainer(initialState.state, function(newState) {
+    self.state = new StateStore(initialState.state, function(newState) {
       if (self.update) { self.update(); }
     });
   }

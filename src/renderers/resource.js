@@ -13,7 +13,6 @@ export default class ResourceRenderer extends Renderer {
 
 function initializeResourceSprite(state) {
   this.resource = this.addSprite(state, image(state.resource));
-  console.log(this.resource);
 }
 
 function image(resource) {

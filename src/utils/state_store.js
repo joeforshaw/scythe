@@ -7,7 +7,7 @@ export default class State {
       if (onChanged) { onChanged(state); }
     };
     this.get = function() {
-      return Object.assign({}, state); 
+      return Object.assign({}, state);
     };
   }
 

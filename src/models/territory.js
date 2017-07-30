@@ -29,7 +29,8 @@ export default class Territory extends Model {
     if (state.selectable) { topic = SELECT_TERRITORY_SELECTABLE; }
     if (state.selected)   { topic = SELECT_TERRITORY_SELECTED; }
     PubSub.publish(topic, {
-      territory: state,
+      territory: this,
+      territoryState: state,
       units: state.units,
       position: this.coordinates()
     });

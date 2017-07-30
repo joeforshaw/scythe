@@ -13,6 +13,10 @@ export const MOVE_UNIT = 'move.unit';
 
 export const MOVED_UNIT = 'moved.unit';
 
+export const ACTIVITY      = 'activity.do';
+export const ACTIVITY_UNDO = 'activity.undo';
+export const ACTIVITY_REDO = 'activity.redo';
+
 export const PERFORMED_ACTION         = 'performed.action';
 export const PERFORMED_ACTION_MOVE    = 'performed.action.move';
 export const PERFORMED_ACTION_PRODUCE = 'performed.action.produce';

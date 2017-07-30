@@ -1,26 +1,23 @@
 import * as Factions from 'enums/factions';
 import * as PlayerMats from 'enums/player_mats';
 import PubSub from 'pubsub-js';
-import StateContainer from 'utils/state_container';
+import StateStore from 'utils/state_store';
 import Player from 'models/player';
 import PlayerMat from 'models/player_mat';
 import { shuffleArray, modelArrayToObject } from 'utils/helper';
 import playerConfig from 'config/player';
 import playerMatsConfig from 'config/player_mats';
 
-const state = new StateContainer({
-  playerMats: {},
-  players: {}
-});
+export default class PlayersInitializer {
 
-export default class PlayerDirector {
-
-  static init() {
-    state.set({ playerMats: initializePlayersMats() });
-    state.set({ players: initializePlayers() });
+  createStore() {
+    const players = initializePlayers();
+    return new StateStore({
+      playerMats:    initializePlayersMats(),
+      players:       players,
+      currentPlayer: initializeCurrentPlayer(players)
+    });
   }
-
-  static state() { return state.get(); }
 
 }
 
@@ -48,4 +45,17 @@ function initializePlayers() {
     players.push(new Player(playerState));
   }
   return modelArrayToObject(players);
+}
+
+function initializeCurrentPlayer(players) {
+  let currentPlayerMat = Infinity;
+  let currentPlayer = null;
+  for (let id in players) {
+    const playerState = players[id].state.get();
+    if (playerState.playerMat < currentPlayerMat) {
+      currentPlayer = players[id];
+      currentPlayerMat = playerState.playerMat;
+    }
+  }
+  return currentPlayer;
 }
