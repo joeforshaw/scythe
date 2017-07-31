@@ -5,9 +5,7 @@ import config from 'config/territory';
 import PubSub from 'pubsub-js';
 import * as TerritorySides from 'enums/territory_sides';
 import {
-  SELECT_TERRITORY,
-  SELECT_TERRITORY_SELECTABLE,
-  SELECT_TERRITORY_SELECTED,
+  ACTIVITY,
   DESELECT_TERRITORY_ALL
 } from 'enums/topics';
 
@@ -25,15 +23,9 @@ export default class Territory extends Model {
 
   onClicked() {
     let state = this.state.get();
-    let topic = SELECT_TERRITORY;
-    if (state.selectable) { topic = SELECT_TERRITORY_SELECTABLE; }
-    if (state.selected)   { topic = SELECT_TERRITORY_SELECTED; }
-    PubSub.publish(topic, {
-      territory: this,
-      territoryState: state,
-      units: state.units,
-      position: this.coordinates()
-    });
+    if (state.onClickActivity) {
+      PubSub.publish(ACTIVITY, state.onClickActivity);
+    }
   }
 
   coordinates() {
@@ -68,6 +60,15 @@ export default class Territory extends Model {
 
   deselect() {
     this.state.set({ selectable: false, selected: false });
+  }
+
+  positionForUnit(unit) {
+    const state = this.state.get();
+    const position = config.tokenPositions[unit.state.get().type][0];
+    return {
+      x: state.x + Math.round(position.x * state.width),
+      y: state.y + Math.round(position.y * state.height)
+    };
   }
 
 }

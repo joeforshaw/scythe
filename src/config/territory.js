@@ -1,8 +1,9 @@
 import * as Territories from 'enums/territories';
 import * as TerritorySides from 'enums/territory_sides';
 import * as Factions from 'enums/factions';
+import * as Units from 'enums/units';
 
-export default {
+const config = {
   width: 1024,
   height: 768,
   columns: 8,
@@ -11,6 +12,7 @@ export default {
     width: 100, //87,
     height: 100 //106
   },
+  tokenPositions: {},
   data: [
     // Row 1
     [
@@ -94,7 +96,7 @@ export default {
       { column: 3, row: 8, type: Territories.VILLAGE }
     ]
   ],
-  factory: { column: 3, row: 4 },  
+  factory: { column: 3, row: 4 },
   tunnels: [
     { column: 3, row: 2 },
     { column: 2, row: 3 },
@@ -134,3 +136,25 @@ export default {
     { column: 2, row: 7 }
   ]
 }
+
+config.tokenPositions[Units.CHARACTER] = [
+  { x: 0.2, y: 0.2 },
+];
+config.tokenPositions[Units.MECH] = [
+  { x: 0.21, y: 0.19 },
+  { x: 0.22, y: 0.18 },
+  { x: 0.23, y: 0.17 },
+  { x: 0.24, y: 0.16 }
+];
+config.tokenPositions[Units.WORKER] = [
+  { x: 0.52,  y: 0.62 },
+  { x: 0.53, y: 0.63 },
+  { x: 0.54, y: 0.62 },
+  { x: 0.55, y: 0.61 },
+  { x: 0.56, y: 0.6 },
+  { x: 0.57, y: 0.59 },
+  { x: 0.58, y: 0.58 },
+  { x: 0.59, y: 0.56 }
+];
+
+export default config;

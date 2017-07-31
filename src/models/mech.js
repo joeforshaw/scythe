@@ -7,7 +7,11 @@ import { CREATED_UNIT } from 'enums/topics';
 export default class Mech extends Unit {
   
   constructor(state) {
-    super({ renderer: MechRenderer, state: state });
+    super({
+      renderer: MechRenderer,
+      state: state,
+      type: MECH
+    });
     PubSub.publish(CREATED_UNIT, { type: MECH, unit: this });
   }
 

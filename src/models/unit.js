@@ -8,6 +8,7 @@ import * as Territories from 'enums/territories';
 export default class Unit extends Model {
 
   constructor(params) {
+    Object.assign(params.state, { type: params.type });
     super(params);
     const self = this;
     this.initialiseMoveRules();

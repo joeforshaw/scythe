@@ -29,7 +29,8 @@ export default class MoveUnitActivity extends Activity {
     // Position unit on territory
     const territoryCenter = territories[this.to.row][this.to.column].center();
     const unitState = this.unit.state.get();
-    this.unit.state.set(territories[this.to.row][this.to.column].positionForCommonCentre(this.unit));
+    const unitPosition = territories[this.to.row][this.to.column].positionForUnit(this.unit);
+    this.unit.state.set(unitPosition);
   }
 
   undo(stores) { }

@@ -7,7 +7,11 @@ import { CREATED_UNIT } from 'enums/topics';
 export default class Character extends Unit {
   
   constructor(state) {
-    super({ renderer: CharacterRenderer, state: state });
+    super({
+      renderer: CharacterRenderer,
+      state: state,
+      type: CHARACTER
+    });
     PubSub.publish(CREATED_UNIT, { type: CHARACTER, unit: this });
   }
 

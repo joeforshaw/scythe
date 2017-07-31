@@ -9,7 +9,11 @@ import * as Territories from 'enums/territories';
 export default class Worker extends Unit {
   
   constructor(state) {
-    super({ renderer: WorkerRenderer, state: state });
+    super({
+      renderer: WorkerRenderer,
+      state: state,
+      type: WORKER
+    });
     PubSub.publish(CREATED_UNIT, { type: WORKER, unit: this });
     addMoveRules(this);
   }
