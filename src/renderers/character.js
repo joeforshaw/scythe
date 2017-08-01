@@ -6,7 +6,7 @@ import { CHARACTER } from 'enums/units';
 export default class CharacterRenderer extends UnitRenderer {
 
   constructor(model, state) {
-    state.unitType = CHARACTER;
+    state.type = CHARACTER;
     super(model, state);
   }
 

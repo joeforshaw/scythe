@@ -6,13 +6,9 @@ export default class ResourceRenderer extends Renderer {
 
   constructor(model, state) {
     super(model, state);
-    initializeResourceSprite(state);
+    this.resource = this.addSprite(state, image(state.type));
   }
 
-}
-
-function initializeResourceSprite(state) {
-  this.resource = this.addSprite(state, image(state.resource));
 }
 
 function image(resource) {
@@ -20,7 +16,7 @@ function image(resource) {
 }
 
 function imageSuffix(resource) {
-  switch(resources) {
+  switch(resource) {
     case Resources.METAL: return 'metal';
     case Resources.OIL:   return 'oil';
     case Resources.FOOD:  return 'food';

@@ -1,4 +1,5 @@
 const path = require('path');
+const WriteFilePlugin = require('write-file-webpack-plugin');
 
 module.exports = {
   entry: './src/scythe.js',
@@ -10,4 +11,7 @@ module.exports = {
     extensions: ['.js'],
     modules: ['src', 'node_modules'],
   },
+  plugins: [
+    new WriteFilePlugin()
+  ]
 }

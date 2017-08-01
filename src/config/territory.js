@@ -12,7 +12,6 @@ const config = {
     width: 100, //87,
     height: 100 //106
   },
-  tokenPositions: {},
   data: [
     // Row 1
     [
@@ -135,26 +134,38 @@ const config = {
     { column: 6, row: 5 },
     { column: 2, row: 7 }
   ]
-}
+};
 
-config.tokenPositions[Units.CHARACTER] = [
+config.unitPositions = [];
+config.unitPositions[Units.CHARACTER] = [
   { x: 0.2, y: 0.2 },
 ];
-config.tokenPositions[Units.MECH] = [
+config.unitPositions[Units.MECH] = [
   { x: 0.21, y: 0.19 },
   { x: 0.22, y: 0.18 },
   { x: 0.23, y: 0.17 },
   { x: 0.24, y: 0.16 }
 ];
-config.tokenPositions[Units.WORKER] = [
-  { x: 0.52,  y: 0.62 },
+config.unitPositions[Units.WORKER] = [
+  { x: 0.52, y: 0.62 },
   { x: 0.53, y: 0.63 },
   { x: 0.54, y: 0.62 },
   { x: 0.55, y: 0.61 },
-  { x: 0.56, y: 0.6 },
+  { x: 0.56, y: 0.6  },
   { x: 0.57, y: 0.59 },
   { x: 0.58, y: 0.58 },
   { x: 0.59, y: 0.56 }
+];
+
+config.resourcePositions = [
+  { x: 0.20, y: 0.62 },
+  { x: 0.22, y: 0.65 },
+  { x: 0.24, y: 0.68 },
+  { x: 0.26, y: 0.71 },
+  { x: 0.28, y: 0.74 },
+  { x: 0.30, y: 0.77 },
+  { x: 0.32, y: 0.80 },
+  { x: 0.34, y: 0.83 }
 ];
 
 export default config;

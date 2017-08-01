@@ -8,12 +8,7 @@ import PubSub from 'pubsub-js';
 import territoryConfig from 'config/territory';
 import Territory from 'models/territory';
 import StateStore from 'utils/state_store';
-import {
-  MOVED_UNIT,
-  SELECT_TERRITORY,
-  SELECT_TERRITORY_SELECTABLE,
-  SELECT_TERRITORY_SELECTED
-} from 'enums/topics';
+import { MOVED_UNIT } from 'enums/topics';
 
 export default class TerritoriesInitializer {
 

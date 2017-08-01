@@ -3,10 +3,13 @@ import Model from 'models/model';
 import TerritoryRenderer from 'renderers/territory';
 import config from 'config/territory';
 import PubSub from 'pubsub-js';
+import * as Territories from 'enums/territories';
+import * as Resources from 'enums/resources';
 import * as TerritorySides from 'enums/territory_sides';
+import { modelArrayToObject } from 'utils/helper';
 import {
   ACTIVITY,
-  DESELECT_TERRITORY_ALL
+  ACTION_END
 } from 'enums/topics';
 
 export default class Territory extends Model {
@@ -14,9 +17,10 @@ export default class Territory extends Model {
   constructor(state) {
     state.selectable = false;
     state.units = {};
+    state.resources = {};
     super({ renderer: TerritoryRenderer, state: state });
     const self = this;
-    PubSub.subscribe(DESELECT_TERRITORY_ALL, function(msg, data) {
+    PubSub.subscribe(ACTION_END, function(msg, data) {
       self.deselect();
     })
   }
@@ -25,6 +29,20 @@ export default class Territory extends Model {
     let state = this.state.get();
     if (state.onClickActivity) {
       PubSub.publish(ACTIVITY, state.onClickActivity);
+    }
+  }
+
+  territoryType() {
+    return this.state.get().type;
+  }
+
+  resourceType() {
+    switch (this.state.get().type) {
+      case Territories.MOUNTAIN: return Resources.METAL;
+      case Territories.TUNDRA:   return Resources.OIL;
+      case Territories.FOREST:   return Resources.WOOD;
+      case Territories.FARM:     return Resources.FOOD;
+      default:                   return null;
     }
   }
 
@@ -62,13 +80,37 @@ export default class Territory extends Model {
     this.state.set({ selectable: false, selected: false });
   }
 
-  positionForUnit(unit) {
+  nextUnitPosition(unit) {
+    const unitType = unit.state.get().type;
+    const units = this.state.get().units;
+    let count = 0;
+    for (let id in units) {
+      count += units[id].state.get().type == unitType ? 1 : 0;
+    }
+    const unitPositions = config.unitPositions;
+    const percentages = config.unitPositions[unitType][count];
+    return this.tokenPosition(percentages);
+  }
+
+  nextResourcePosition() {
+    const resourceCount = Object.keys(this.state.get().resources).length;
+    const percentages = config.resourcePositions[resourceCount];
+    return this.tokenPosition(percentages);
+  }
+
+  tokenPosition(percentages) {
     const state = this.state.get();
-    const position = config.tokenPositions[unit.state.get().type][0];
     return {
-      x: state.x + Math.round(position.x * state.width),
-      y: state.y + Math.round(position.y * state.height)
+      x: state.x + Math.round(percentages.x * state.width),
+      y: state.y + Math.round(percentages.y * state.height)
     };
+  }
+
+  addResources(newResources) {
+    const state = this.state.get();
+    let currentResources = state.resources;
+    let mergedResources = Object.assign(currentResources, modelArrayToObject(newResources));
+    this.state.set(mergedResources);
   }
 
 }

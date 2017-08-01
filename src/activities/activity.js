@@ -1,4 +1,13 @@
 export default class Activity {
+
+  constructor(props) {
+    this.props = props ? props : {};
+  }
+
   do () {}
-  undo() {}
+
+  undoable() {
+    return typeof this.undo !== 'undefined';
+  }
+
 }

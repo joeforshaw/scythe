@@ -56,6 +56,12 @@ const sprites = {
     'albion':   'worker-albion.png',
     'selected': 'worker-selected.png'
   },
+  'resource': {
+    'food':  'resource-food.png',
+    'metal': 'resource-metal.png',
+    'oil':   'resource-oil.png',
+    'wood':  'resource-wood.png'
+  }
 };
 
 export default sprites;

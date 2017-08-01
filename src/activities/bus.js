@@ -1,4 +1,5 @@
 import PubSub from 'pubsub-js';
+import { formattedTime } from 'utils/helper';
 import {
   ACTIVITY,
   ACTIVITY_UNDO,
@@ -49,6 +50,7 @@ function add(activity) {
 }
 
 function undo() {
+  if (!undoStack || !undoStack[0].undoable()) { return; }
   const activity = undoStack.pop();
   if (activity) {
     activity.undo(copyOfStores());
@@ -65,6 +67,7 @@ function redo() {
 }
 
 function performDo(activity) {
+  console.log('[' + formattedTime() + '] ' + activity.constructor.name);
   activity.do(copyOfStores());
 }
 

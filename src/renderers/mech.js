@@ -6,7 +6,7 @@ import { MECH } from 'enums/units';
 export default class MechRenderer extends UnitRenderer {
 
   constructor(model, state) {
-    state.unitType = MECH;
+    state.type = MECH;
     super(model, state);
   }
 

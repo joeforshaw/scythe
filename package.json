@@ -13,6 +13,7 @@
     "http-server": "^0.10.0",
     "path": "^0.12.7",
     "pubsub-js": "^1.5.7",
-    "webpack": "^3.0.0"
+    "webpack": "^3.0.0",
+    "write-file-webpack-plugin": "^4.1.0"
   }
 }

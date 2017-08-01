@@ -7,7 +7,7 @@ export default class UnitRenderer extends Renderer {
 
   constructor(model, state) {
     super(model, state);
-    this.unitType = state.unitType;
+    this.type = state.type;
     this.addUnit(state);
     this.group.inputEnableChildren = true;
     this.group.onChildInputDown.add(function(sprite) {
@@ -39,11 +39,11 @@ export default class UnitRenderer extends Renderer {
   }
 
   imageName(key) {
-    return [this.spritePrefix(this.unitType), key].join('-')
+    return [this.spritePrefix(this.type), key].join('-')
   }
 
-  spritePrefix(unitType) {
-    switch(unitType) {
+  spritePrefix(type) {
+    switch(type) {
       case Units.CHARACTER: return 'character';
       case Units.MECH:      return 'mech';
       case Units.WORKER:    return 'worker';
