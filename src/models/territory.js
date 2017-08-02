@@ -86,6 +86,7 @@ export default class Territory extends Model {
     let count = 0;
     for (let id in units) {
       count += units[id].state.get().type == unitType ? 1 : 0;
+      console.log(count, unitType, units[id].state.get());
     }
     const unitPositions = config.unitPositions;
     const percentages = config.unitPositions[unitType][count];

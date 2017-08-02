@@ -15,16 +15,16 @@ export default class MoveUnitActivity extends Activity {
     // Set unit's territory
     this.props.unit.state.set({ territory: territories[this.props.to.row][this.props.to.column] });
 
-    // Set territory's units
-    const territoryUnits = territories[this.props.to.row][this.props.to.column].state.get().units;
-    territoryUnits[this.props.unit.id] = this.props.unit;
-    territories[this.props.to.row][this.props.to.column].state.set({ units: territoryUnits });
-
     // Position unit on territory
     const territoryCenter = territories[this.props.to.row][this.props.to.column].center();
     const unitState = this.props.unit.state.get();
     const unitPosition = territories[this.props.to.row][this.props.to.column].nextUnitPosition(this.props.unit);
     this.props.unit.state.set(unitPosition);
+
+    // Set territory's units
+    const territoryUnits = territories[this.props.to.row][this.props.to.column].state.get().units;
+    territoryUnits[this.props.unit.id] = this.props.unit;
+    territories[this.props.to.row][this.props.to.column].state.set({ units: territoryUnits });
   }
 
   undo(stores) { }
